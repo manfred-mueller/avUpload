@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Über</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Eine kleine Anwendung, um eine Datei gepackt zum Whitelisting-Server von Avast® hochzuladen.
+
+Die Anwendung ist 'immer in Front', unterstützt Drag&amp;Drop und speichert die letzte Fensterposition.
+
+Die Einstellungen können inklusive verschlüsseltem Passwort in der Windows™-Registrierung unter HKCU gespeichert werden.
+
+NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in dieser Software verwendeten Markennamen und Bezeichnungen sind eingetragene Warenzeichen und Marken der jeweiligen Eigentümer und dienen nur der Beschreibung.</value>
+  </data>
   <data name="Done" xml:space="preserve">
     <value>Fertig</value>
   </data>
@@ -129,11 +144,17 @@
   <data name="File" xml:space="preserve">
     <value>Datei:</value>
   </data>
-  <data name="ProgName" xml:space="preserve">
-    <value>Avast® Whitelisting Upload</value>
+  <data name="KeySNotFound" xml:space="preserve">
+    <value>Schlüssel nicht gefunden!</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Passwort:</value>
+  </data>
+  <data name="ProgName" xml:space="preserve">
+    <value>Avast® Whitelisting Upload</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Einstellungen speichern</value>
   </data>
   <data name="SelectFile" xml:space="preserve">
     <value>Datei wählen</value>
@@ -147,6 +168,9 @@
   <data name="Username" xml:space="preserve">
     <value>Benutzer:</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="WhitelistExe" xml:space="preserve">
     <value>whitelist.exe</value>
   </data>
@@ -155,35 +179,5 @@
   </data>
   <data name="ZipCreated" xml:space="preserve">
     <value>.zip erstellt</value>
-  </data>
-  <data name="KeySNotFound" xml:space="preserve">
-    <value>Schlüssel nicht gefunden!</value>
-  </data>
-  <data name="SaveSettings" xml:space="preserve">
-    <value>Einstellungen speichern</value>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>Über</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Eine kleine Anwendung, um eine Datei gepackt zum Whitelisting-Server von Avast® hochzuladen.
-
-Die Anwendung ist 'immer in Front', unterstützt Drag&amp;Drop und speichert die letzte Fensterposition.
-
-Die Einstellungen können inklusive verschlüsseltem Passwort in der Windows™-Registrierung unter HKCU gespeichert werden.
-
-NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in dieser Software verwendeten Markennamen und Bezeichnungen sind eingetragene Warenzeichen und Marken der jeweiligen Eigentümer und dienen nur der Beschreibung.</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Beenden</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>Anzeigen</value>
-  </data>
-  <data name="Minimize" xml:space="preserve">
-    <value>Minimieren</value>
   </data>
 </root>

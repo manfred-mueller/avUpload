@@ -260,59 +260,6 @@ namespace avUpload
                 MessageBox.Show(this, Properties.Resources.Description, Properties.Resources.ProgName, MessageBoxButtons.OK, MessageBoxIcon.None);
 
         }
-        private void notifyIcon1_Click(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                if (Visible == false)
-                {
-                    BringToFront();
-                }
-                if (WindowState == FormWindowState.Minimized || Visible == false)
-                {
-                    BringToFront();
-                    WindowState = FormWindowState.Normal;
-                    ShowInTaskbar = false;
-                }
-                else
-                {
-                    WindowState = FormWindowState.Minimized;
-                    ShowInTaskbar = false;
-//                    selfMinimized = true;
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                if (WindowState == FormWindowState.Minimized)
-                {
-                    openToolStripMenuItem.Enabled = true;
-                    minimizeToolStripMenuItem.Enabled = false;
-                }
-                else
-                {
-                    openToolStripMenuItem.Enabled = false;
-                    minimizeToolStripMenuItem.Enabled = true;
-                }
-            }
-        }
-
-        private void open_Click(object sender, EventArgs e)
-        {
-            if (Visible == false)
-            {
-                BringToFront();
-            }
-            WindowState = FormWindowState.Normal;
-            notifyIcon1.Visible = true;
-            ShowInTaskbar = false;
-        }
-        private void minimize_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-            notifyIcon1.Visible = true;
-            ShowInTaskbar = false;
-        }
-
         private void close_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Location = Location;
