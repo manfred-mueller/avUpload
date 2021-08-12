@@ -147,6 +147,12 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="KeySNotFound" xml:space="preserve">
     <value>Schlüssel nicht gefunden!</value>
   </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimieren</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Anzeigen</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Passwort:</value>
   </data>

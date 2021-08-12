@@ -176,15 +176,6 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Show ähnelt.
-        /// </summary>
-        public static string Open {
-            get {
-                return ResourceManager.GetString("Open", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Password: ähnelt.
         /// </summary>
         public static string Password {
@@ -217,6 +208,15 @@ namespace avUpload.Properties {
         public static string SelectFile {
             get {
                 return ResourceManager.GetString("SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Show ähnelt.
+        /// </summary>
+        public static string Show {
+            get {
+                return ResourceManager.GetString("Show", resourceCulture);
             }
         }
         

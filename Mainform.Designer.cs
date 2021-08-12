@@ -48,6 +48,8 @@ namespace avUpload
             this.toggleButton = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnAbout = new System.Windows.Forms.Button();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.trayIconContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -221,6 +223,22 @@ namespace avUpload
             this.btnAbout.UseVisualStyleBackColor = true;
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Text = global::avUpload.Properties.Resources.Show;
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
+            // 
+            // minimizeToolStripMenuItem
+            // 
+            this.minimizeToolStripMenuItem.Image = global::avUpload.Properties.Resources.underline;
+            this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
+            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.minimizeToolStripMenuItem.Text = global::avUpload.Properties.Resources.Minimize;
+            this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.minimize_Click);
+            // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Image = global::avUpload.Properties.Resources.exit;
@@ -233,10 +251,13 @@ namespace avUpload
             // 
             this.notifyIcon1.ContextMenuStrip = this.trayIconContextMenuStrip;
             this.notifyIcon1.Text = global::avUpload.Properties.Resources.ProgName;
+            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_Click);
             // 
             // trayIconContextMenuStrip
             // 
             this.trayIconContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.minimizeToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.trayIconContextMenuStrip.Name = "trayIconContextMenuStrip";
             this.trayIconContextMenuStrip.Size = new System.Drawing.Size(124, 70);
@@ -295,6 +316,8 @@ namespace avUpload
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip trayIconContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }
 }
