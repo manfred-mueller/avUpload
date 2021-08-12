@@ -231,6 +231,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Show/Hide password ähnelt.
+        /// </summary>
+        public static string ShowHidePassword {
+            get {
+                return ResourceManager.GetString("ShowHidePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap underline {

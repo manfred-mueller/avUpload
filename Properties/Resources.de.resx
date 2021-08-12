@@ -186,4 +186,7 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="ZipCreated" xml:space="preserve">
     <value>.zip erstellt</value>
   </data>
+  <data name="ShowHidePassword" xml:space="preserve">
+    <value>Passwort anzeigen/verbergen</value>
+  </data>
 </root>

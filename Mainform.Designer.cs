@@ -52,6 +52,7 @@ namespace avUpload
             this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.trayIconContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.trayIconContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -199,6 +200,7 @@ namespace avUpload
             this.toggleButton.UseVisualStyleBackColor = false;
             this.toggleButton.Image = global::avUpload.Properties.Resources.show_password;
             this.toggleButton.Click += new System.EventHandler(this.toggleButton_Click);
+            this.toolTip1.SetToolTip(this.toggleButton, avUpload.Properties.Resources.ShowHidePassword);
             // 
             // btnSave
             // 
@@ -252,6 +254,13 @@ namespace avUpload
             this.notifyIcon1.ContextMenuStrip = this.trayIconContextMenuStrip;
             this.notifyIcon1.Text = global::avUpload.Properties.Resources.ProgName;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 50000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
             // 
             // trayIconContextMenuStrip
             // 
@@ -315,6 +324,7 @@ namespace avUpload
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ContextMenuStrip trayIconContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;

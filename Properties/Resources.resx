@@ -200,4 +200,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   <data name="Show" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="ShowHidePassword" xml:space="preserve">
+    <value>Show/Hide password</value>
+  </data>
 </root>
