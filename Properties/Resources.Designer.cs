@@ -111,6 +111,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Drop file to upload here ähnelt.
+        /// </summary>
+        public static string DropFileToUploadHere {
+            get {
+                return ResourceManager.GetString("DropFileToUploadHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Email: ähnelt.
         /// </summary>
         public static string Email {
@@ -181,6 +190,15 @@ namespace avUpload.Properties {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Pick file ähnelt.
+        /// </summary>
+        public static string PickFile {
+            get {
+                return ResourceManager.GetString("PickFile", resourceCulture);
             }
         }
         

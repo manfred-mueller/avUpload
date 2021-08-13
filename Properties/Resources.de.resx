@@ -189,4 +189,10 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="ShowHidePassword" xml:space="preserve">
     <value>Passwort anzeigen/verbergen</value>
   </data>
+  <data name="PickFile" xml:space="preserve">
+    <value>Datei wählen</value>
+  </data>
+  <data name="DropFileToUploadHere" xml:space="preserve">
+    <value>Hochzuladende Datei hierher ziehen</value>
+  </data>
 </root>

@@ -53,6 +53,8 @@ namespace avUpload
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.trayIconContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.trayIconContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -67,6 +69,8 @@ namespace avUpload
             this.btnPickFile.TabIndex = 1;
             this.btnPickFile.UseVisualStyleBackColor = true;
             this.btnPickFile.Click += new System.EventHandler(this.btnPickFile_Click);
+            this.toolTip2.SetToolTip(this.btnPickFile, avUpload.Properties.Resources.PickFile);
+
             // 
             // lblStatus
             // 
@@ -101,6 +105,8 @@ namespace avUpload
             this.txtFile.TabIndex = 25;
             this.txtFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtFile_DragDrop);
             this.txtFile.DragOver += new System.Windows.Forms.DragEventHandler(this.txtFile_DragOver);
+            this.toolTip3.SetToolTip(this.txtFile, avUpload.Properties.Resources.DropFileToUploadHere);
+
             // 
             // lblFile
             // 
@@ -325,6 +331,8 @@ namespace avUpload
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.ToolTip toolTip3;
         private System.Windows.Forms.ContextMenuStrip trayIconContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;

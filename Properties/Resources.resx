@@ -203,4 +203,10 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   <data name="ShowHidePassword" xml:space="preserve">
     <value>Show/Hide password</value>
   </data>
+  <data name="PickFile" xml:space="preserve">
+    <value>Pick file</value>
+  </data>
+  <data name="DropFileToUploadHere" xml:space="preserve">
+    <value>Drop file to upload here</value>
+  </data>
 </root>
