@@ -113,6 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="avUpload.ico" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\save.png" />
+    <None Include="Resources\upload.png" />
+    <None Include="Resources\compress.png" />
     <None Include="Resources\show_password.png" />
     <None Include="Resources\hide_password.png" />
     <None Include="Resources\exit.png" />

@@ -89,11 +89,35 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap compress {
+            get {
+                object obj = ResourceManager.GetObject("compress", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: Could not read the file. Original error:  ähnelt.
+        /// </summary>
+        public static string CouldNotReadTheFile {
+            get {
+                return ResourceManager.GetString("CouldNotReadTheFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A small application for zipping and uploading a file to the Avast® whitelisting server. 
         ///The window is a topmost window, supports drag&amp;drop and stores it&apos;s last position.
         ///Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
         ///
-        ///NASS e.K. and avUpload are not related to Avast®. All trademarks and product names used in this software are the properties of their respective owners and are used solely for descriptive purposes. ähnelt.
+        ///1. Choose file(s) via filechooser or drag&amp;drop
+        ///    (marked file(s) can be removed via right click)
+        ///2. Click on the zip button to create the archive
+        ///3. Click on the Upload button to upload the archive
+        ///
+        ///NASS e.K. and avUpload are no [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Description {
             get {
@@ -111,7 +135,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Drop file to upload here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Drop file to upload here or use the file chooser ähnelt.
         /// </summary>
         public static string DropFileToUploadHere {
             get {
@@ -148,11 +172,11 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die File: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die File(s): ähnelt.
         /// </summary>
-        public static string File {
+        public static string Files {
             get {
-                return ResourceManager.GetString("File", resourceCulture);
+                return ResourceManager.GetString("Files", resourceCulture);
             }
         }
         
@@ -162,6 +186,16 @@ namespace avUpload.Properties {
         public static System.Drawing.Bitmap hide_password {
             get {
                 object obj = ResourceManager.GetObject("hide_password", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap info {
+            get {
+                object obj = ResourceManager.GetObject("info", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -212,11 +246,12 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Save settings ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        public static string SaveSettings {
+        public static System.Drawing.Bitmap save {
             get {
-                return ResourceManager.GetString("SaveSettings", resourceCulture);
+                object obj = ResourceManager.GetObject("save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -258,6 +293,33 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Create archive ähnelt.
+        /// </summary>
+        public static string ToolTipCompress {
+            get {
+                return ResourceManager.GetString("ToolTipCompress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save settings ähnelt.
+        /// </summary>
+        public static string ToolTipSaveSettings {
+            get {
+                return ResourceManager.GetString("ToolTipSaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Upload ähnelt.
+        /// </summary>
+        public static string ToolTipUpload {
+            get {
+                return ResourceManager.GetString("ToolTipUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap underline {
@@ -268,11 +330,12 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Upload ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        public static string Upload {
+        public static System.Drawing.Bitmap upload {
             get {
-                return ResourceManager.GetString("Upload", resourceCulture);
+                object obj = ResourceManager.GetObject("upload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

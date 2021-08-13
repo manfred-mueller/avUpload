@@ -1,4 +1,6 @@
 ﻿
+using System.Windows.Forms;
+
 namespace avUpload
 {
     partial class Mainform
@@ -34,7 +36,7 @@ namespace avUpload
             this.btnPickFile = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnUpload = new System.Windows.Forms.Button();
-            this.txtFile = new System.Windows.Forms.TextBox();
+            this.txtFile = new System.Windows.Forms.ListBox();
             this.lblFile = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
@@ -46,16 +48,17 @@ namespace avUpload
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.lblEmail = new System.Windows.Forms.Label();
             this.toggleButton = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.btnAbout = new System.Windows.Forms.Button();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayIconContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.trayIconContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btnZip = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.trayIconContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,20 +67,19 @@ namespace avUpload
             this.btnPickFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPickFile.Location = new System.Drawing.Point(342, 114);
             this.btnPickFile.Name = "btnPickFile";
-            this.btnPickFile.Text = "...";
             this.btnPickFile.Size = new System.Drawing.Size(30, 23);
             this.btnPickFile.TabIndex = 1;
+            this.btnPickFile.Text = "...";
+            this.toolTip2.SetToolTip(this.btnPickFile, global::avUpload.Properties.Resources.PickFile);
             this.btnPickFile.UseVisualStyleBackColor = true;
             this.btnPickFile.Click += new System.EventHandler(this.btnPickFile_Click);
-            this.toolTip2.SetToolTip(this.btnPickFile, avUpload.Properties.Resources.PickFile);
-
             // 
             // lblStatus
             // 
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblStatus.Location = new System.Drawing.Point(15, 179);
+            this.lblStatus.Location = new System.Drawing.Point(15, 293);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(357, 23);
             this.lblStatus.TabIndex = 30;
@@ -86,13 +88,14 @@ namespace avUpload
             // btnUpload
             // 
             this.btnUpload.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnUpload.Location = new System.Drawing.Point(82, 142);
+            this.btnUpload.Image = global::avUpload.Properties.Resources.upload;
+            this.btnUpload.Location = new System.Drawing.Point(342, 179);
             this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(75, 23);
-            this.btnUpload.TabIndex = 6;
-            this.btnUpload.Text = global::avUpload.Properties.Resources.Upload;
+            this.btnUpload.Size = new System.Drawing.Size(30, 35);
+            this.btnUpload.TabIndex = 3;
             this.btnUpload.UseVisualStyleBackColor = true;
             this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
+            this.toolTip1.SetToolTip(this.btnUpload, global::avUpload.Properties.Resources.ToolTipUpload);
             // 
             // txtFile
             // 
@@ -101,21 +104,22 @@ namespace avUpload
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFile.Location = new System.Drawing.Point(82, 116);
             this.txtFile.Name = "txtFile";
-            this.txtFile.Size = new System.Drawing.Size(254, 20);
+            this.txtFile.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.txtFile.Size = new System.Drawing.Size(254, 173);
             this.txtFile.TabIndex = 25;
+            this.toolTip3.SetToolTip(this.txtFile, global::avUpload.Properties.Resources.DropFileToUploadHere);
             this.txtFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtFile_DragDrop);
             this.txtFile.DragOver += new System.Windows.Forms.DragEventHandler(this.txtFile_DragOver);
-            this.toolTip3.SetToolTip(this.txtFile, avUpload.Properties.Resources.DropFileToUploadHere);
-
+            this.txtFile.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtFile_MouseDown);
             // 
             // lblFile
             // 
             this.lblFile.AutoSize = true;
             this.lblFile.Location = new System.Drawing.Point(12, 119);
             this.lblFile.Name = "lblFile";
-            this.lblFile.Size = new System.Drawing.Size(26, 13);
+            this.lblFile.Size = new System.Drawing.Size(37, 13);
             this.lblFile.TabIndex = 29;
-            this.lblFile.Text = avUpload.Properties.Resources.File;
+            this.lblFile.Text = global::avUpload.Properties.Resources.Files;
             // 
             // txtPassword
             // 
@@ -134,7 +138,7 @@ namespace avUpload
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 13);
             this.lblPassword.TabIndex = 28;
-            this.lblPassword.Text = avUpload.Properties.Resources.Password;
+            this.lblPassword.Text = global::avUpload.Properties.Resources.Password;
             // 
             // txtUsername
             // 
@@ -143,7 +147,7 @@ namespace avUpload
             this.txtUsername.Location = new System.Drawing.Point(82, 38);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(290, 20);
-            this.txtUsername.TabIndex = 3;
+            this.txtUsername.TabIndex = 6;
             // 
             // lblUsername
             // 
@@ -152,7 +156,7 @@ namespace avUpload
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(58, 13);
             this.lblUsername.TabIndex = 27;
-            this.lblUsername.Text = avUpload.Properties.Resources.Username;
+            this.lblUsername.Text = global::avUpload.Properties.Resources.Username;
             // 
             // txtUri
             // 
@@ -161,7 +165,7 @@ namespace avUpload
             this.txtUri.Location = new System.Drawing.Point(82, 12);
             this.txtUri.Name = "txtUri";
             this.txtUri.Size = new System.Drawing.Size(290, 20);
-            this.txtUri.TabIndex = 2;
+            this.txtUri.TabIndex = 5;
             // 
             // lblUri
             // 
@@ -170,11 +174,13 @@ namespace avUpload
             this.lblUri.Name = "lblUri";
             this.lblUri.Size = new System.Drawing.Size(32, 13);
             this.lblUri.TabIndex = 22;
-            this.lblUri.Text = avUpload.Properties.Resources.URL;
+            this.lblUri.Text = global::avUpload.Properties.Resources.URL;
             // 
             // ofdFile
             // 
             this.ofdFile.FileName = global::avUpload.Properties.Resources.WhitelistExe;
+            this.ofdFile.Multiselect = true;
+            this.ofdFile.RestoreDirectory = true;
             this.ofdFile.Title = global::avUpload.Properties.Resources.SelectFile;
             // 
             // txtEmail
@@ -184,7 +190,7 @@ namespace avUpload
             this.txtEmail.Location = new System.Drawing.Point(82, 90);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(290, 20);
-            this.txtEmail.TabIndex = 5;
+            this.txtEmail.TabIndex = 6;
             // 
             // lblEmail
             // 
@@ -193,41 +199,29 @@ namespace avUpload
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(35, 13);
             this.lblEmail.TabIndex = 33;
-            this.lblEmail.Text = avUpload.Properties.Resources.Email;
+            this.lblEmail.Text = global::avUpload.Properties.Resources.Email;
             // 
             // toggleButton
             // 
             this.toggleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.toggleButton.BackColor = System.Drawing.SystemColors.Control;
+            this.toggleButton.Image = global::avUpload.Properties.Resources.show_password;
             this.toggleButton.Location = new System.Drawing.Point(342, 62);
             this.toggleButton.Name = "toggleButton";
             this.toggleButton.Size = new System.Drawing.Size(30, 23);
-            this.toggleButton.TabIndex = 34;
+            this.toggleButton.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.toggleButton, global::avUpload.Properties.Resources.ShowHidePassword);
             this.toggleButton.UseVisualStyleBackColor = false;
-            this.toggleButton.Image = global::avUpload.Properties.Resources.show_password;
             this.toggleButton.Click += new System.EventHandler(this.toggleButton_Click);
-            this.toolTip1.SetToolTip(this.toggleButton, avUpload.Properties.Resources.ShowHidePassword);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(163, 142);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(128, 23);
-            this.btnSave.TabIndex = 35;
-            this.btnSave.Text = global::avUpload.Properties.Resources.SaveSettings;
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnAbout
             // 
             this.btnAbout.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAbout.Location = new System.Drawing.Point(297, 142);
+            this.btnAbout.Image = global::avUpload.Properties.Resources.info;
+            this.btnAbout.Location = new System.Drawing.Point(342, 255);
             this.btnAbout.Name = "btnAbout";
-            this.btnAbout.Size = new System.Drawing.Size(75, 23);
-            this.btnAbout.TabIndex = 36;
-            this.btnAbout.Text = global::avUpload.Properties.Resources.About;
+            this.btnAbout.Size = new System.Drawing.Size(30, 35);
+            this.btnAbout.TabIndex = 4;
             this.btnAbout.UseVisualStyleBackColor = true;
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
@@ -261,13 +255,6 @@ namespace avUpload
             this.notifyIcon1.Text = global::avUpload.Properties.Resources.ProgName;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_Click);
             // 
-            // toolTip1
-            // 
-            this.toolTip1.AutoPopDelay = 50000;
-            this.toolTip1.InitialDelay = 500;
-            this.toolTip1.ReshowDelay = 100;
-            this.toolTip1.ShowAlways = true;
-            // 
             // trayIconContextMenuStrip
             // 
             this.trayIconContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -277,14 +264,45 @@ namespace avUpload
             this.trayIconContextMenuStrip.Name = "trayIconContextMenuStrip";
             this.trayIconContextMenuStrip.Size = new System.Drawing.Size(124, 70);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 50000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
+            // 
+            // btnZip
+            // 
+            this.btnZip.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnZip.Image = global::avUpload.Properties.Resources.compress;
+            this.btnZip.Location = new System.Drawing.Point(342, 143);
+            this.btnZip.Name = "btnZip";
+            this.btnZip.Size = new System.Drawing.Size(30, 35);
+            this.btnZip.TabIndex = 2;
+            this.btnZip.UseVisualStyleBackColor = true;
+            this.toolTip1.SetToolTip(this.btnZip, global::avUpload.Properties.Resources.ToolTipCompress);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnSave.Image = global::avUpload.Properties.Resources.save;
+            this.btnSave.Location = new System.Drawing.Point(342, 217);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(30, 35);
+            this.btnSave.TabIndex = 7;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.toolTip1.SetToolTip(this.btnSave, avUpload.Properties.Resources.ToolTipSaveSettings);
+            // 
             // Mainform
             // 
             this.AcceptButton = this.btnUpload;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 213);
-            this.Controls.Add(this.btnAbout);
+            this.ClientSize = new System.Drawing.Size(384, 324);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnZip);
+            this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.toggleButton);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.lblEmail);
@@ -315,7 +333,7 @@ namespace avUpload
         private System.Windows.Forms.Button btnPickFile;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button btnUpload;
-        private System.Windows.Forms.TextBox txtFile;
+        private System.Windows.Forms.ListBox txtFile;
         private System.Windows.Forms.Label lblFile;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label lblPassword;
@@ -327,7 +345,6 @@ namespace avUpload
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Button toggleButton;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -337,6 +354,8 @@ namespace avUpload
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private Button btnZip;
+        private Button btnSave;
     }
 }
 

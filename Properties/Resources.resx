@@ -117,96 +117,119 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Upload" xml:space="preserve">
-    <value>Upload</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>File:</value>
-  </data>
   <data name="Password" xml:space="preserve">
     <value>Password:</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Username:</value>
-  </data>
-  <data name="URL" xml:space="preserve">
-    <value>URL:</value>
-  </data>
-  <data name="SelectFile" xml:space="preserve">
-    <value>Select File</value>
-  </data>
-  <data name="ProgName" xml:space="preserve">
-    <value>Avast® whitelisting upload</value>
-  </data>
-  <data name="Done" xml:space="preserve">
-    <value>Done</value>
-  </data>
-  <data name="Working" xml:space="preserve">
-    <value>Working...</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="WhitelistExe" xml:space="preserve">
-    <value>whitelist.exe</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email:</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="avUpload" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\avUpload.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ZipCreated" xml:space="preserve">
-    <value>.zip created</value>
   </data>
   <data name="KeySNotFound" xml:space="preserve">
     <value>Key(s) not found!</value>
   </data>
-  <data name="SaveSettings" xml:space="preserve">
-    <value>Save settings</value>
+  <data name="ProgName" xml:space="preserve">
+    <value>Avast® whitelisting upload</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
+  <data name="PickFile" xml:space="preserve">
+    <value>Pick file</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>A small application for zipping and uploading a file to the Avast® whitelisting server. 
 The window is a topmost window, supports drag&amp;drop and stores it's last position.
 Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
 
+1. Choose file(s) via filechooser or drag&amp;drop
+    (marked file(s) can be removed via right click)
+2. Click on the zip button to create the archive
+3. Click on the Upload button to upload the archive
+
 NASS e.K. and avUpload are not related to Avast®. All trademarks and product names used in this software are the properties of their respective owners and are used solely for descriptive purposes.</value>
   </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version</value>
+  <data name="Username" xml:space="preserve">
+    <value>Username:</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>Exit</value>
+  <data name="ZipCreated" xml:space="preserve">
+    <value>.zip created</value>
   </data>
-  <data name="underline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\underline.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="hide_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hide_password.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="show_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\show_password.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Minimize" xml:space="preserve">
-    <value>Minimize</value>
+  <data name="URL" xml:space="preserve">
+    <value>URL:</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select File</value>
+  </data>
+  <data name="CouldNotReadTheFile" xml:space="preserve">
+    <value>Error: Could not read the file. Original error: </value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="show_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\show_password.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="compress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\compress.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="avUpload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\avUpload.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ShowHidePassword" xml:space="preserve">
     <value>Show/Hide password</value>
   </data>
-  <data name="PickFile" xml:space="preserve">
-    <value>Pick file</value>
+  <data name="exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>File(s):</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="underline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\underline.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="ToolTipSaveSettings" xml:space="preserve">
+    <value>Save settings</value>
   </data>
   <data name="DropFileToUploadHere" xml:space="preserve">
-    <value>Drop file to upload here</value>
+    <value>Drop file to upload here or use the file chooser</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Working...</value>
+  </data>
+  <data name="WhitelistExe" xml:space="preserve">
+    <value>whitelist.exe</value>
+  </data>
+  <data name="hide_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hide_password.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolTipUpload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="ToolTipCompress" xml:space="preserve">
+    <value>Create archive</value>
   </data>
 </root>

@@ -13,16 +13,11 @@ namespace avUpload
 {
     public partial class Mainform : Form
     {
-        public string sourceName = null;
-        public string fullSourceName = null;
         public string timeStamp = null;
-        public string zipName = null;
         public string zipPath = null;
-        public string zipSource = null;
         public string zipUpload = null;
         public char mask = '✲';
         RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Avast\Whitelisting", true);
-
 
         public string Encrypt()
         {
@@ -96,7 +91,6 @@ namespace avUpload
             notifyIcon1.Icon = new Icon(Properties.Resources.avUpload, 48, 48);
             notifyIcon1.Visible = true;
             Location = Properties.Settings.Default.Location;
-            
             TopMost = true;
             AllowDrop = true;
 
@@ -108,7 +102,9 @@ namespace avUpload
                 txtEmail.Text = (string)regKey.GetValue("Email", null);
             }
 
+            btnZip.Enabled = false;
             btnSave.Enabled = false;
+            btnUpload.Enabled = false;
 
             txtUri.TextChanged += new EventHandler(ChangeHandler);
             txtUsername.TextChanged += new EventHandler(ChangeHandler);
@@ -140,13 +136,56 @@ namespace avUpload
             }
         }
 
-        // Let the user pick a file.
+        // Let the user pick files.
         private void btnPickFile_Click(object sender, EventArgs e)
         {
             if (ofdFile.ShowDialog() == DialogResult.OK)
             {
-                txtFile.Text = ofdFile.FileName;
-                ZipTheFile(ofdFile.FileName);
+                foreach (String file in ofdFile.FileNames)
+                {
+                    try
+                    {
+                        Stream myStream;
+                        if ((myStream = ofdFile.OpenFile()) != null)
+                        {
+                            using (myStream)
+                            {
+                                txtFile.Items.Add(file);
+                            }
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(Properties.Resources.CouldNotReadTheFile + ex.Message);
+                    }
+                }
+            }
+            if (txtFile.Items.Count > 0)
+                btnZip.Enabled = true;
+            else
+            {
+                btnZip.Enabled = false;
+            }
+        }
+
+        private void txtFile_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ListBox.SelectedObjectCollection selListItems = txtFile.SelectedItems;
+
+                foreach (var item in selListItems.OfType<string>().ToList())
+                {
+                    txtFile.Items.Remove(item);
+                }
+                if (txtFile.Items.Count > 0)
+                    btnZip.Enabled = true;
+                else
+                {
+                    btnZip.Enabled = false;
+                }
+
             }
         }
 
@@ -179,26 +218,26 @@ namespace avUpload
 
         // Prepare the ZIP archive for Avast
 
-        private void ZipTheFile(string ZipSource)
+        private void btnZip_Click(object sender, EventArgs e)
         {
+            ListBox.ObjectCollection ListItems = txtFile.Items;
             DateTime date = DateTime.Now;
-            timeStamp = date.ToString("ddMMyyyy");
-            fullSourceName = ZipSource;
-            txtFile.Text = fullSourceName;
-            sourceName = Path.GetFileName(fullSourceName);
-            zipName = Path.GetFileNameWithoutExtension(sourceName);
+            timeStamp = date.ToString("ddMMyyyyHHmmssffff");
             zipPath = Path.GetTempPath();
-            zipUpload = zipPath + txtEmail.Text + "_" + timeStamp + "_" + zipName + ".zip";
+            zipUpload = zipPath + txtEmail.Text + "_" + timeStamp + ".zip";
             try
             {
                 Cursor = Cursors.WaitCursor;
                 lblStatus.Text = Properties.Resources.Working;
                 // Create FileStream for output ZIP archive
-                using (FileStream zipFile = File.Open(zipPath + txtEmail.Text + "_" + timeStamp + "_" + zipName + ".zip", FileMode.Create))
+                using (FileStream zipFile = File.Open(zipUpload, FileMode.Create))
                 // File to be added to archive
                 using (ZipArchive arch = new ZipArchive(zipFile, ZipArchiveMode.Create))
                 {
-                    arch.CreateEntryFromFile(fullSourceName, sourceName);
+                    foreach (var zipSource in ListItems.OfType<string>().ToList())
+                    {
+                        arch.CreateEntryFromFile(zipSource, Path.GetFileName(zipSource));
+                    }
                 }
             }
             catch (Exception ex)
@@ -209,7 +248,8 @@ namespace avUpload
             finally
             {
                 Cursor = Cursors.Default;
-                lblStatus.Text = txtEmail.Text + "_" + timeStamp + "_" + zipName + Properties.Resources.ZipCreated;
+                btnUpload.Enabled = true;
+                lblStatus.Text = txtEmail.Text + "_" + timeStamp + ".zip" + Properties.Resources.ZipCreated;
             }
 
         }
@@ -331,15 +371,18 @@ namespace avUpload
             else
                 e.Effect = DragDropEffects.None;
         }
-
         private void txtFile_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (files != null && files.Any())
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
             {
-                txtFile.Text = files.First();
-                ZipTheFile(files.First());
+                txtFile.Items.Add(file);
             }
+            btnZip.Enabled = true;
+        }
+        private void txtFile_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
     }
 }

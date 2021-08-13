@@ -126,6 +126,11 @@
   <data name="Description" xml:space="preserve">
     <value>Eine kleine Anwendung, um eine Datei gepackt zum Whitelisting-Server von Avast® hochzuladen.
 
+1. Datei(en) per Drag&amp;Drop oder Auswahlbutton auswählen
+    (Markierte Datei(en) optional per Rechtsklick entfernen)
+2. Auf den Zip-Button zum Erstellen des Archives klicken
+3. Auf den Upload-Button zum Hochladen des Archives klicken
+
 Die Anwendung ist 'immer in Front', unterstützt Drag&amp;Drop und speichert die letzte Fensterposition.
 
 Die Einstellungen können inklusive verschlüsseltem Passwort in der Windows™-Registrierung unter HKCU gespeichert werden.
@@ -141,8 +146,8 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="Error" xml:space="preserve">
     <value>Fehler</value>
   </data>
-  <data name="File" xml:space="preserve">
-    <value>Datei:</value>
+  <data name="Files" xml:space="preserve">
+    <value>Datei(en):</value>
   </data>
   <data name="KeySNotFound" xml:space="preserve">
     <value>Schlüssel nicht gefunden!</value>
@@ -159,14 +164,11 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="ProgName" xml:space="preserve">
     <value>Avast® Whitelisting Upload</value>
   </data>
-  <data name="SaveSettings" xml:space="preserve">
+  <data name="ToolTipSaveSettings" xml:space="preserve">
     <value>Einstellungen speichern</value>
   </data>
   <data name="SelectFile" xml:space="preserve">
     <value>Datei wählen</value>
-  </data>
-  <data name="Upload" xml:space="preserve">
-    <value>Hochladen</value>
   </data>
   <data name="URL" xml:space="preserve">
     <value>URL:</value>
@@ -193,6 +195,15 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
     <value>Datei wählen</value>
   </data>
   <data name="DropFileToUploadHere" xml:space="preserve">
-    <value>Hochzuladende Datei hierher ziehen</value>
+    <value>Hochzuladende Datei hierher ziehen oder die Dateiauswahl benutzen</value>
+  </data>
+  <data name="CouldNotReadTheFile" xml:space="preserve">
+    <value>Fehler: Kann Datei nicht lesen. Original-Fehler: </value>
+  </data>
+  <data name="ToolTipUpload" xml:space="preserve">
+    <value>Hochladen</value>
+  </data>
+  <data name="ToolTipCompress" xml:space="preserve">
+    <value>Archiv erstellen</value>
   </data>
 </root>
