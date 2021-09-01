@@ -126,14 +126,9 @@
   <data name="Description" xml:space="preserve">
     <value>Eine kleine Anwendung, um eine Datei gepackt zum Whitelisting-Server von Avast® hochzuladen.
 
-1. Datei(en) per Drag&amp;Drop oder Auswahlbutton auswählen
-    (Markierte Datei(en) optional per Rechtsklick entfernen)
-2. Auf den Zip-Button zum Erstellen des Archives klicken
-3. Auf den Upload-Button zum Hochladen des Archives klicken
+Datei(en) per Drag&amp;Drop oder Auswahlbutton auswählen (markierte Datei(en) optional per Rechtsklick entfernen). Auf den Zip-Button zum Erstellen des Archives klicken. Auf den Upload-Button zum Hochladen des Archives klicken.
 
-Die Anwendung ist 'immer in Front', unterstützt Drag&amp;Drop und speichert die letzte Fensterposition.
-
-Die Einstellungen können inklusive verschlüsseltem Passwort in der Windows™-Registrierung unter HKCU gespeichert werden.
+Die Anwendung ist 'immer in Front', unterstützt Drag&amp;Drop und speichert die letzte Fensterposition. Sie kann über das Taskleistensymbol auf den Benutzer-Desktop und das "Senden an"-Menü verlinkt werden. Die Einstellungen können inklusive verschlüsseltem Passwort in der Windows™-Registrierung unter HKCU gespeichert werden.
 
 NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in dieser Software verwendeten Markennamen und Bezeichnungen sind eingetragene Warenzeichen und Marken der jeweiligen Eigentümer und dienen nur der Beschreibung.</value>
   </data>
@@ -170,9 +165,6 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="SelectFile" xml:space="preserve">
     <value>Datei wählen</value>
   </data>
-  <data name="URL" xml:space="preserve">
-    <value>URL:</value>
-  </data>
   <data name="Username" xml:space="preserve">
     <value>Benutzer:</value>
   </data>
@@ -195,7 +187,7 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
     <value>Datei wählen</value>
   </data>
   <data name="DropFileToUploadHere" xml:space="preserve">
-    <value>Hochzuladende Datei hierher ziehen oder die Dateiauswahl benutzen</value>
+    <value>Hochzuladende Datei(en) hierher ziehen oder die Dateiauswahl benutzen</value>
   </data>
   <data name="CouldNotReadTheFile" xml:space="preserve">
     <value>Fehler: Kann Datei nicht lesen. Original-Fehler: </value>
@@ -205,5 +197,23 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   </data>
   <data name="ToolTipCompress" xml:space="preserve">
     <value>Archiv erstellen</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Firmenname</value>
+  </data>
+  <data name="InfoAbout" xml:space="preserve">
+    <value>Info über</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Produktname</value>
+  </data>
+  <data name="DesktopLink" xml:space="preserve">
+    <value>Desktop-Verknüpfung</value>
+  </data>
+  <data name="SendToLink" xml:space="preserve">
+    <value>"Senden an"-Verknüpfung</value>
+  </data>
+  <data name="AnotherInstanceIsAlreadyRunning" xml:space="preserve">
+    <value>Eine andere Instanz ist bereits aktiv!</value>
   </data>
 </root>

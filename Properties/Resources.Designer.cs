@@ -70,6 +70,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Another instance is already running! ähnelt.
+        /// </summary>
+        public static string AnotherInstanceIsAlreadyRunning {
+            get {
+                return ResourceManager.GetString("AnotherInstanceIsAlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
         public static System.Drawing.Icon avUpload {
@@ -89,12 +98,30 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Company name ähnelt.
+        /// </summary>
+        public static string CompanyName {
+            get {
+                return ResourceManager.GetString("CompanyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap compress {
             get {
                 object obj = ResourceManager.GetObject("compress", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copyright &amp;copy; 2021 Manfred M&amp;#252;ller, ähnelt.
+        /// </summary>
+        public static string Copyright {
+            get {
+                return ResourceManager.GetString("Copyright", resourceCulture);
             }
         }
         
@@ -110,18 +137,23 @@ namespace avUpload.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A small application for zipping and uploading a file to the Avast® whitelisting server. 
         ///The window is a topmost window, supports drag&amp;drop and stores it&apos;s last position.
+        ///The program can be (un)linked to the users desktop and sendto context menu via the tray menu.
         ///Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
         ///
-        ///1. Choose file(s) via filechooser or drag&amp;drop
-        ///    (marked file(s) can be removed via right click)
-        ///2. Click on the zip button to create the archive
-        ///3. Click on the Upload button to upload the archive
-        ///
-        ///NASS e.K. and avUpload are no [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///Choose file(s) via filechooser or drag&amp;drop (marked file(s) can be removed via right click). Click on the zip button to create the archive.  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Desktop Link ähnelt.
+        /// </summary>
+        public static string DesktopLink {
+            get {
+                return ResourceManager.GetString("DesktopLink", resourceCulture);
             }
         }
         
@@ -135,7 +167,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Drop file to upload here or use the file chooser ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Drop file(s) to upload here or use the file chooser ähnelt.
         /// </summary>
         public static string DropFileToUploadHere {
             get {
@@ -201,6 +233,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Info About ähnelt.
+        /// </summary>
+        public static string InfoAbout {
+            get {
+                return ResourceManager.GetString("InfoAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key(s) not found! ähnelt.
         /// </summary>
         public static string KeySNotFound {
@@ -237,6 +278,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Product name ähnelt.
+        /// </summary>
+        public static string ProductName {
+            get {
+                return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Avast® whitelisting upload ähnelt.
         /// </summary>
         public static string ProgName {
@@ -261,6 +311,15 @@ namespace avUpload.Properties {
         public static string SelectFile {
             get {
                 return ResourceManager.GetString("SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Send to Link ähnelt.
+        /// </summary>
+        public static string SendToLink {
+            get {
+                return ResourceManager.GetString("SendToLink", resourceCulture);
             }
         }
         

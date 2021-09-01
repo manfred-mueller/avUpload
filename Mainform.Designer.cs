@@ -1,4 +1,5 @@
 ﻿
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace avUpload
@@ -52,20 +53,22 @@ namespace avUpload
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendtoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.trayIconContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.btnZip = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.trayIconContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPickFile
             // 
             this.btnPickFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPickFile.Location = new System.Drawing.Point(342, 114);
+            this.btnPickFile.Location = new System.Drawing.Point(432, 114);
             this.btnPickFile.Name = "btnPickFile";
             this.btnPickFile.Size = new System.Drawing.Size(30, 23);
             this.btnPickFile.TabIndex = 1;
@@ -81,7 +84,7 @@ namespace avUpload
             this.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblStatus.Location = new System.Drawing.Point(15, 293);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(357, 23);
+            this.lblStatus.Size = new System.Drawing.Size(447, 23);
             this.lblStatus.TabIndex = 30;
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -89,23 +92,24 @@ namespace avUpload
             // 
             this.btnUpload.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnUpload.Image = global::avUpload.Properties.Resources.upload;
-            this.btnUpload.Location = new System.Drawing.Point(342, 179);
+            this.btnUpload.Location = new System.Drawing.Point(432, 179);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(30, 35);
             this.btnUpload.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.btnUpload, global::avUpload.Properties.Resources.ToolTipUpload);
             this.btnUpload.UseVisualStyleBackColor = true;
             this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
-            this.toolTip1.SetToolTip(this.btnUpload, global::avUpload.Properties.Resources.ToolTipUpload);
             // 
             // txtFile
             // 
             this.txtFile.AllowDrop = true;
             this.txtFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFile.HorizontalScrollbar = true;
             this.txtFile.Location = new System.Drawing.Point(82, 116);
             this.txtFile.Name = "txtFile";
             this.txtFile.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.txtFile.Size = new System.Drawing.Size(254, 173);
+            this.txtFile.Size = new System.Drawing.Size(344, 173);
             this.txtFile.TabIndex = 25;
             this.toolTip3.SetToolTip(this.txtFile, global::avUpload.Properties.Resources.DropFileToUploadHere);
             this.txtFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtFile_DragDrop);
@@ -119,7 +123,7 @@ namespace avUpload
             this.lblFile.Name = "lblFile";
             this.lblFile.Size = new System.Drawing.Size(37, 13);
             this.lblFile.TabIndex = 29;
-            this.lblFile.Text = global::avUpload.Properties.Resources.Files;
+            this.lblFile.Text = avUpload.Properties.Resources.Files;
             // 
             // txtPassword
             // 
@@ -128,7 +132,7 @@ namespace avUpload
             this.txtPassword.Location = new System.Drawing.Point(82, 64);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '✲';
-            this.txtPassword.Size = new System.Drawing.Size(254, 20);
+            this.txtPassword.Size = new System.Drawing.Size(344, 20);
             this.txtPassword.TabIndex = 4;
             // 
             // lblPassword
@@ -138,7 +142,7 @@ namespace avUpload
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 13);
             this.lblPassword.TabIndex = 28;
-            this.lblPassword.Text = global::avUpload.Properties.Resources.Password;
+            this.lblPassword.Text = avUpload.Properties.Resources.Password;
             // 
             // txtUsername
             // 
@@ -146,7 +150,7 @@ namespace avUpload
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUsername.Location = new System.Drawing.Point(82, 38);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(290, 20);
+            this.txtUsername.Size = new System.Drawing.Size(380, 20);
             this.txtUsername.TabIndex = 6;
             // 
             // lblUsername
@@ -156,7 +160,7 @@ namespace avUpload
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(58, 13);
             this.lblUsername.TabIndex = 27;
-            this.lblUsername.Text = global::avUpload.Properties.Resources.Username;
+            this.lblUsername.Text = avUpload.Properties.Resources.Username;
             // 
             // txtUri
             // 
@@ -164,7 +168,7 @@ namespace avUpload
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUri.Location = new System.Drawing.Point(82, 12);
             this.txtUri.Name = "txtUri";
-            this.txtUri.Size = new System.Drawing.Size(290, 20);
+            this.txtUri.Size = new System.Drawing.Size(380, 20);
             this.txtUri.TabIndex = 5;
             // 
             // lblUri
@@ -174,7 +178,7 @@ namespace avUpload
             this.lblUri.Name = "lblUri";
             this.lblUri.Size = new System.Drawing.Size(32, 13);
             this.lblUri.TabIndex = 22;
-            this.lblUri.Text = global::avUpload.Properties.Resources.URL;
+            this.lblUri.Text = avUpload.Properties.Resources.URL;
             // 
             // ofdFile
             // 
@@ -189,7 +193,7 @@ namespace avUpload
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtEmail.Location = new System.Drawing.Point(82, 90);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(290, 20);
+            this.txtEmail.Size = new System.Drawing.Size(380, 20);
             this.txtEmail.TabIndex = 6;
             // 
             // lblEmail
@@ -199,14 +203,14 @@ namespace avUpload
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(35, 13);
             this.lblEmail.TabIndex = 33;
-            this.lblEmail.Text = global::avUpload.Properties.Resources.Email;
+            this.lblEmail.Text = avUpload.Properties.Resources.Email;
             // 
             // toggleButton
             // 
             this.toggleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.toggleButton.BackColor = System.Drawing.SystemColors.Control;
             this.toggleButton.Image = global::avUpload.Properties.Resources.show_password;
-            this.toggleButton.Location = new System.Drawing.Point(342, 62);
+            this.toggleButton.Location = new System.Drawing.Point(432, 62);
             this.toggleButton.Name = "toggleButton";
             this.toggleButton.Size = new System.Drawing.Size(30, 23);
             this.toggleButton.TabIndex = 5;
@@ -218,7 +222,7 @@ namespace avUpload
             // 
             this.btnAbout.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnAbout.Image = global::avUpload.Properties.Resources.info;
-            this.btnAbout.Location = new System.Drawing.Point(342, 255);
+            this.btnAbout.Location = new System.Drawing.Point(432, 255);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(30, 35);
             this.btnAbout.TabIndex = 4;
@@ -229,7 +233,7 @@ namespace avUpload
             // 
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.openToolStripMenuItem.Text = global::avUpload.Properties.Resources.Show;
             this.openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
             // 
@@ -237,7 +241,7 @@ namespace avUpload
             // 
             this.minimizeToolStripMenuItem.Image = global::avUpload.Properties.Resources.underline;
             this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
-            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.minimizeToolStripMenuItem.Text = global::avUpload.Properties.Resources.Minimize;
             this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.minimize_Click);
             // 
@@ -245,9 +249,25 @@ namespace avUpload
             // 
             this.closeToolStripMenuItem.Image = global::avUpload.Properties.Resources.exit;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.closeToolStripMenuItem.Text = global::avUpload.Properties.Resources.Close;
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.close_Click);
+            // 
+            // linkToolStripMenuItem
+            // 
+            this.linkToolStripMenuItem.CheckOnClick = true;
+            this.linkToolStripMenuItem.Name = "linkToolStripMenuItem";
+            this.linkToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.linkToolStripMenuItem.Text = global::avUpload.Properties.Resources.DesktopLink;
+            this.linkToolStripMenuItem.Click += new System.EventHandler(this.link_Click);
+            // 
+            // sendtoToolStripMenuItem
+            // 
+            this.sendtoToolStripMenuItem.CheckOnClick = true;
+            this.sendtoToolStripMenuItem.Name = "sendtoToolStripMenuItem";
+            this.sendtoToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.sendtoToolStripMenuItem.Text = global::avUpload.Properties.Resources.SendToLink;
+            this.sendtoToolStripMenuItem.Click += new System.EventHandler(this.sendto_Click);
             // 
             // notifyIcon1
             // 
@@ -260,9 +280,11 @@ namespace avUpload
             this.trayIconContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.minimizeToolStripMenuItem,
+            this.linkToolStripMenuItem,
+            this.sendtoToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.trayIconContextMenuStrip.Name = "trayIconContextMenuStrip";
-            this.trayIconContextMenuStrip.Size = new System.Drawing.Size(124, 70);
+            this.trayIconContextMenuStrip.Size = new System.Drawing.Size(143, 114);
             // 
             // toolTip1
             // 
@@ -275,31 +297,32 @@ namespace avUpload
             // 
             this.btnZip.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnZip.Image = global::avUpload.Properties.Resources.compress;
-            this.btnZip.Location = new System.Drawing.Point(342, 143);
+            this.btnZip.Location = new System.Drawing.Point(432, 143);
             this.btnZip.Name = "btnZip";
             this.btnZip.Size = new System.Drawing.Size(30, 35);
             this.btnZip.TabIndex = 2;
-            this.btnZip.UseVisualStyleBackColor = true;
             this.toolTip1.SetToolTip(this.btnZip, global::avUpload.Properties.Resources.ToolTipCompress);
+            this.btnZip.UseVisualStyleBackColor = true;
+            this.btnZip.Click += new System.EventHandler(this.btnZip_Click);
             // 
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnSave.Image = global::avUpload.Properties.Resources.save;
-            this.btnSave.Location = new System.Drawing.Point(342, 217);
+            this.btnSave.Location = new System.Drawing.Point(432, 217);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(30, 35);
             this.btnSave.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.btnSave, global::avUpload.Properties.Resources.ToolTipSaveSettings);
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            this.toolTip1.SetToolTip(this.btnSave, avUpload.Properties.Resources.ToolTipSaveSettings);
             // 
             // Mainform
             // 
             this.AcceptButton = this.btnUpload;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 324);
+            this.ClientSize = new System.Drawing.Size(474, 324);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnZip);
             this.Controls.Add(this.btnAbout);
@@ -354,6 +377,8 @@ namespace avUpload
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem linkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sendtoToolStripMenuItem;
         private Button btnZip;
         private Button btnSave;
     }

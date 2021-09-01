@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using IWshRuntimeLibrary;
 
 namespace avUpload
 {
@@ -18,6 +19,9 @@ namespace avUpload
         public string zipUpload = null;
         public char mask = '✲';
         RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Avast\Whitelisting", true);
+        public string linkName = null;
+        public string linkPath = null;
+        public string sendtoPath = null;
 
         public string Encrypt()
         {
@@ -83,16 +87,27 @@ namespace avUpload
             }
         }
         
-        public Mainform()
+        public Mainform(string[] args)
         {
             InitializeComponent();
-
             WindowState = FormWindowState.Normal;           
             notifyIcon1.Icon = new Icon(Properties.Resources.avUpload, 48, 48);
             notifyIcon1.Visible = true;
             Location = Properties.Settings.Default.Location;
             TopMost = true;
             AllowDrop = true;
+            if (args.Length > 0)
+            {
+                foreach (string file in args)
+                {
+                    txtFile.Items.Add(file);
+                }
+                btnZip.Enabled = true;
+            }
+            else
+            {
+                btnZip.Enabled = false;
+            }
 
             if (regKey != null)
             {
@@ -102,7 +117,6 @@ namespace avUpload
                 txtEmail.Text = (string)regKey.GetValue("Email", null);
             }
 
-            btnZip.Enabled = false;
             btnSave.Enabled = false;
             btnUpload.Enabled = false;
 
@@ -110,6 +124,18 @@ namespace avUpload
             txtUsername.TextChanged += new EventHandler(ChangeHandler);
             txtPassword.TextChanged += new EventHandler(ChangeHandler);
             txtEmail.TextChanged += new EventHandler(ChangeHandler);
+
+            linkName = Properties.Resources.ProgName + ".lnk";
+            linkPath = (@Environment.GetEnvironmentVariable("USERPROFILE") + "\\Desktop\\" + linkName);
+            sendtoPath = (@Environment.GetEnvironmentVariable("USERPROFILE") + "\\AppData\\Roaming\\Microsoft\\Windows\\SendTo\\" + linkName);
+            if (System.IO.File.Exists(linkPath))
+            {
+                this.linkToolStripMenuItem.Checked = true;
+            }
+            if (System.IO.File.Exists(sendtoPath))
+            {
+                this.sendtoToolStripMenuItem.Checked = true;
+            }
         }
 
         // Start with the executable file.
@@ -210,7 +236,7 @@ namespace avUpload
             }
             finally
             {
-                File.Delete(zipUpload);
+                System.IO.File.Delete(zipUpload);
                 txtFile.Text = null;
                 Cursor = Cursors.Default;
             }
@@ -222,7 +248,8 @@ namespace avUpload
         {
             ListBox.ObjectCollection ListItems = txtFile.Items;
             DateTime date = DateTime.Now;
-            timeStamp = date.ToString("ddMMyyyyHHmmssffff");
+//            timeStamp = date.ToString("ddMMyyyy-HHmmssffff");
+            timeStamp = date.ToString("ffff_dd-MM-yyyy");
             zipPath = Path.GetTempPath();
             zipUpload = zipPath + txtEmail.Text + "_" + timeStamp + ".zip";
             try
@@ -230,7 +257,7 @@ namespace avUpload
                 Cursor = Cursors.WaitCursor;
                 lblStatus.Text = Properties.Resources.Working;
                 // Create FileStream for output ZIP archive
-                using (FileStream zipFile = File.Open(zipUpload, FileMode.Create))
+                using (FileStream zipFile = System.IO.File.Open(zipUpload, FileMode.Create))
                 // File to be added to archive
                 using (ZipArchive arch = new ZipArchive(zipFile, ZipArchiveMode.Create))
                 {
@@ -249,7 +276,7 @@ namespace avUpload
             {
                 Cursor = Cursors.Default;
                 btnUpload.Enabled = true;
-                lblStatus.Text = txtEmail.Text + "_" + timeStamp + ".zip" + Properties.Resources.ZipCreated;
+                lblStatus.Text = txtEmail.Text + "_" + timeStamp + Properties.Resources.ZipCreated;
             }
 
         }
@@ -266,7 +293,7 @@ namespace avUpload
             
 
             // Read the file's contents into a byte array.
-            byte[] bytes = File.ReadAllBytes(filename);
+            byte[] bytes = System.IO.File.ReadAllBytes(filename);
 
             // Write the bytes into the request stream.
             request.ContentLength = bytes.Length;
@@ -296,8 +323,10 @@ namespace avUpload
 
         private void btnAbout_Click(object sender, EventArgs e)
         {
-                MessageBox.Show(this, Properties.Resources.Description, Properties.Resources.ProgName, MessageBoxButtons.OK, MessageBoxIcon.None);
+            AboutBox1 aboutBox = new AboutBox1();
 
+            aboutBox.ShowDialog();
+//            MessageBox.Show(this, Properties.Resources.Description, Properties.Resources.ProgName, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
         private void notifyIcon1_Click(object sender, MouseEventArgs e)
         {
@@ -347,6 +376,50 @@ namespace avUpload
             notifyIcon1.Visible = true;
         }
 
+        private void link_Click(object sender, EventArgs e)
+        {
+            if (this.linkToolStripMenuItem.Checked == true)
+            {
+                var WshShell = new WshShell();
+                IWshShortcut MyShortcut;
+
+                MyShortcut = (IWshShortcut)WshShell.CreateShortcut(linkPath);
+                MyShortcut.TargetPath = Application.ExecutablePath;
+                MyShortcut.WorkingDirectory = Environment.CurrentDirectory;
+                MyShortcut.Description = Application.ProductName;
+                MyShortcut.Save();
+            }
+            else
+            {
+                if (System.IO.File.Exists(linkPath))
+                {
+                    System.IO.File.Delete(linkPath);
+                    this.linkToolStripMenuItem.Checked = false;
+                }
+            }
+        }
+        private void sendto_Click(object sender, EventArgs e)
+        {
+            if (this.sendtoToolStripMenuItem.Checked == true)
+            {
+                var WshShell = new WshShell();
+                IWshShortcut MyShortcut;
+
+                MyShortcut = (IWshShortcut)WshShell.CreateShortcut(sendtoPath);
+                MyShortcut.TargetPath = Application.ExecutablePath;
+                MyShortcut.WorkingDirectory = Environment.CurrentDirectory;
+                MyShortcut.Description = Application.ProductName;
+                MyShortcut.Save();
+            }
+            else
+            {
+                if (System.IO.File.Exists(sendtoPath))
+                {
+                    System.IO.File.Delete(sendtoPath);
+                    this.sendtoToolStripMenuItem.Checked = false;
+                }
+            }
+        }
         private void close_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Location = Location;

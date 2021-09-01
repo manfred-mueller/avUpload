@@ -132,12 +132,10 @@
   <data name="Description" xml:space="preserve">
     <value>A small application for zipping and uploading a file to the Avast® whitelisting server. 
 The window is a topmost window, supports drag&amp;drop and stores it's last position.
+The program can be (un)linked to the users desktop and sendto context menu via the tray menu.
 Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
 
-1. Choose file(s) via filechooser or drag&amp;drop
-    (marked file(s) can be removed via right click)
-2. Click on the zip button to create the archive
-3. Click on the Upload button to upload the archive
+Choose file(s) via filechooser or drag&amp;drop (marked file(s) can be removed via right click). Click on the zip button to create the archive. Click on the Upload button to upload the archive
 
 NASS e.K. and avUpload are not related to Avast®. All trademarks and product names used in this software are the properties of their respective owners and are used solely for descriptive purposes.</value>
   </data>
@@ -149,6 +147,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   </data>
   <data name="URL" xml:space="preserve">
     <value>URL:</value>
+    <comment>@Invariant</comment>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Show</value>
@@ -203,7 +202,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
     <value>Save settings</value>
   </data>
   <data name="DropFileToUploadHere" xml:space="preserve">
-    <value>Drop file to upload here or use the file chooser</value>
+    <value>Drop file(s) to upload here or use the file chooser</value>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Exit</value>
@@ -231,5 +230,27 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   </data>
   <data name="ToolTipCompress" xml:space="preserve">
     <value>Create archive</value>
+  </data>
+  <data name="InfoAbout" xml:space="preserve">
+    <value>Info About</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Product name</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Company name</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Copyright &amp;copy; 2021 Manfred M&amp;#252;ller,</value>
+    <comment>@Invariant</comment>
+  </data>
+  <data name="DesktopLink" xml:space="preserve">
+    <value>Desktop Link</value>
+  </data>
+  <data name="SendToLink" xml:space="preserve">
+    <value>Send to Link</value>
+  </data>
+  <data name="AnotherInstanceIsAlreadyRunning" xml:space="preserve">
+    <value>Another instance is already running!</value>
   </data>
 </root>
