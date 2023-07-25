@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoUpdaterDotNET;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -9,6 +10,8 @@ namespace avUpload
         public AboutBox1()
         {
             InitializeComponent();
+            AutoUpdater.Start("https://github.com/manfred-mueller/avupload/raw/master/version.xml");
+
             Text = String.Format(Properties.Resources.InfoAbout, AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
             labelVersion.Text = String.Format("Version {0}", AssemblyVersion);

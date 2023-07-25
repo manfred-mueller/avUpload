@@ -241,7 +241,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
     <value>Company name</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>Copyright &amp;copy; 2021 Manfred M&amp;#252;ller,</value>
+    <value>Copyright &amp;copy; 2021-2023 Manfred M&amp;#252;ller,</value>
     <comment>@Invariant</comment>
   </data>
   <data name="DesktopLink" xml:space="preserve">

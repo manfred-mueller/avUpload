@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Web;
 using System.Drawing;
+using AutoUpdaterDotNET;
 
 namespace avUpload
 {
@@ -164,7 +165,7 @@ namespace avUpload
             // websiteLabel
             // 
             this.websiteLabel.AutoSize = true;
-            this.websiteLabel.Location = new System.Drawing.Point(315, 63);
+            this.websiteLabel.Location = new System.Drawing.Point(340, 63);
             this.websiteLabel.Name = "websiteLabel";
             this.websiteLabel.Size = new System.Drawing.Size(58, 13);
             this.websiteLabel.TabIndex = 1;

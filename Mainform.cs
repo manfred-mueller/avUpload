@@ -18,10 +18,12 @@ namespace avUpload
         public string zipPath = null;
         public string zipUpload = null;
         public char mask = '✲';
-        RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Avast\Whitelisting", true);
+        RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\NASS e.K.\Avast-Whitelisting", true);
         public string linkName = null;
         public string linkPath = null;
         public string sendtoPath = null;
+        public string publickey = "52830761";
+        public string privatekey = "Cfg_!7KjH";
 
         public string Encrypt()
         {
@@ -29,10 +31,8 @@ namespace avUpload
             {
                 string textToEncrypt = txtPassword.Text;
                 string ToReturn = "";
-                string publickey = "52830761";
-                string secretkey = "Cfg_!7KjH";
-                byte[] secretkeyByte = { };
-                secretkeyByte = Encoding.UTF8.GetBytes(secretkey);
+                byte[] privatekeyByte = { };
+                privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
                 byte[] publickeybyte = { };
                 publickeybyte = Encoding.UTF8.GetBytes(publickey);
                 MemoryStream ms = null;
@@ -41,7 +41,7 @@ namespace avUpload
                 using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
                 {
                     ms = new MemoryStream();
-                    cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, secretkeyByte), CryptoStreamMode.Write);
+                    cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
                     cs.Write(inputbyteArray, 0, inputbyteArray.Length);
                     cs.FlushFinalBlock();
                     ToReturn = Convert.ToBase64String(ms.ToArray());
@@ -60,8 +60,6 @@ namespace avUpload
             {
                 string textToDecrypt = (string)regKey.GetValue("Password", null);
                 string ToReturn = "";
-                string publickey = "52830761";
-                string privatekey = "Cfg_!7KjH";
                 byte[] privatekeyByte = { };
                 privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
                 byte[] publickeybyte = { };
@@ -248,7 +246,6 @@ namespace avUpload
         {
             ListBox.ObjectCollection ListItems = txtFile.Items;
             DateTime date = DateTime.Now;
-//            timeStamp = date.ToString("ddMMyyyy-HHmmssffff");
             timeStamp = date.ToString("ffff_dd-MM-yyyy");
             zipPath = Path.GetTempPath();
             zipUpload = zipPath + txtEmail.Text + "_" + timeStamp + ".zip";
@@ -313,7 +310,7 @@ namespace avUpload
         {
             if (regKey == null)
             {
-                regKey = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Avast\\Whitelisting");
+                regKey = Registry.CurrentUser.CreateSubKey("SOFTWARE\\NASS e.K.\\Avast-Whitelisting");
             }
             regKey.SetValue("Uri", txtUri.Text);
             regKey.SetValue("Username", txtUsername.Text);
