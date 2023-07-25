@@ -165,7 +165,7 @@ namespace avUpload
         {
             if (ofdFile.ShowDialog() == DialogResult.OK)
             {
-                foreach (String file in ofdFile.FileNames)
+                foreach (string file in ofdFile.FileNames)
                 {
                     try
                     {

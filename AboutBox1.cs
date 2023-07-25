@@ -1,5 +1,4 @@
 ﻿using AutoUpdaterDotNET;
-using System;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -11,10 +10,10 @@ namespace avUpload
         {
             InitializeComponent();
             AutoUpdater.Start("https://github.com/manfred-mueller/avupload/raw/master/version.xml");
-
-            Text = String.Format(Properties.Resources.InfoAbout, AssemblyTitle);
+            AutoUpdater.SetOwner(this);
+            Text = string.Format(Properties.Resources.InfoAbout, AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
-            labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            labelVersion.Text = string.Format("Version {0}", AssemblyVersion);
             labelCompanyName.Text = AssemblyCompany;
             textBoxDescription.Text = Properties.Resources.Description;
             TopMost = true;
