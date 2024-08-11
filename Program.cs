@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Windows.Forms;
 
 namespace avUpload
@@ -7,23 +7,41 @@ namespace avUpload
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
-        static Mutex mutex = new Mutex(true, "{69C9E15E-40D0-4FE6-BA54-AF931203DB90}");
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
-            if (mutex.WaitOne(TimeSpan.Zero, true))
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            string[] args = Environment.GetCommandLineArgs();
+            SingleInstanceController controller = new SingleInstanceController();
+            controller.Run(args);
+        }
+    }
+
+    public class SingleInstanceController : WindowsFormsApplicationBase
+    {
+        public SingleInstanceController()
+        {
+            IsSingleInstance = true;
+
+            StartupNextInstance += this_StartupNextInstance;
+        }
+
+        void this_StartupNextInstance(object sender, StartupNextInstanceEventArgs e)
+        {
+            Form1 form = MainForm as Form1;
+            if (e.CommandLine.Count > 1)
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Mainform(args));
-                mutex.ReleaseMutex();
+                form.LoadFiles(e.CommandLine[1]);
             }
-            else
-            {
-                MessageBox.Show(avUpload.Properties.Resources.AnotherInstanceIsAlreadyRunning, Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+        }
+
+        protected override void OnCreateMainForm()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            MainForm = new Form1(args);
         }
     }
 }

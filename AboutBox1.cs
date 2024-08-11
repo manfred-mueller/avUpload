@@ -11,6 +11,8 @@ namespace avUpload
             InitializeComponent();
             AutoUpdater.Start("https://github.com/manfred-mueller/avupload/raw/master/version.xml");
             AutoUpdater.SetOwner(this);
+            AutoUpdater.ShowRemindLaterButton = true;
+            AutoUpdater.ShowSkipButton = true;
             Text = string.Format(Properties.Resources.InfoAbout, AssemblyTitle);
             labelProductName.Text = AssemblyProduct;
             labelVersion.Text = string.Format("Version {0}", AssemblyVersion);

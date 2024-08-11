@@ -253,4 +253,8 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   <data name="AnotherInstanceIsAlreadyRunning" xml:space="preserve">
     <value>Another instance is already running!</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>&amp;#8263;</value>
+    <comment>@Invariant</comment>
+  </data>
 </root>

@@ -12,7 +12,7 @@ using IWshRuntimeLibrary;
 
 namespace avUpload
 {
-    public partial class Mainform : Form
+    public partial class Form1 : Form
     {
         public string timeStamp = null;
         public string zipPath = null;
@@ -22,8 +22,8 @@ namespace avUpload
         public string linkName = null;
         public string linkPath = null;
         public string sendtoPath = null;
-        public string publickey = "52830761";
-        public string privatekey = "Cfg_!7KjH";
+        public string publicKey = "52830761";
+        public string privateKey = "Cfg_!7KjH";
 
         public string Encrypt()
         {
@@ -32,9 +32,9 @@ namespace avUpload
                 string textToEncrypt = txtPassword.Text;
                 string ToReturn = "";
                 byte[] privatekeyByte = { };
-                privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
+                privatekeyByte = Encoding.UTF8.GetBytes(privateKey);
                 byte[] publickeybyte = { };
-                publickeybyte = Encoding.UTF8.GetBytes(publickey);
+                publickeybyte = Encoding.UTF8.GetBytes(publicKey);
                 MemoryStream ms = null;
                 CryptoStream cs = null;
                 byte[] inputbyteArray = Encoding.UTF8.GetBytes(textToEncrypt);
@@ -61,9 +61,9 @@ namespace avUpload
                 string textToDecrypt = (string)regKey.GetValue("Password", null);
                 string ToReturn = "";
                 byte[] privatekeyByte = { };
-                privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
+                privatekeyByte = Encoding.UTF8.GetBytes(privateKey);
                 byte[] publickeybyte = { };
-                publickeybyte = Encoding.UTF8.GetBytes(publickey);
+                publickeybyte = Encoding.UTF8.GetBytes(publicKey);
                 MemoryStream ms = null;
                 CryptoStream cs = null;
                 byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
@@ -85,7 +85,7 @@ namespace avUpload
             }
         }
         
-        public Mainform(string[] args)
+        public Form1(string[] args)
         {
             InitializeComponent();
             WindowState = FormWindowState.Normal;           
@@ -96,11 +96,7 @@ namespace avUpload
             AllowDrop = true;
             if (args.Length > 0)
             {
-                foreach (string file in args)
-                {
-                    txtFile.Items.Add(file);
-                }
-                btnZip.Enabled = true;
+                LoadFiles(args);
             }
             else
             {
@@ -139,25 +135,35 @@ namespace avUpload
         // Start with the executable file.
         private void Mainform_Load(object sender, EventArgs e)
         {
-            lblStatus.Text = Properties.Resources.Done;
-            txtFile.Text = Application.ExecutablePath;
+//            lblStatus.Text = Properties.Resources.Done;
+//            txtFile.Text = Application.ExecutablePath;
         }
 
-        public void toggleButton_Click(object sender, EventArgs e)
+        public void btnShowHidePassword_Click(object sender, EventArgs e)
         {
             if (mask == '✲')
             {
                 txtPassword.PasswordChar = '\0';
                 mask = '\0';
-                toggleButton.Image = Properties.Resources.hide_password;
+                btnShowHidePassword.Image = Properties.Resources.hide_password;
 
             }
             else
             {
                 txtPassword.PasswordChar = '✲';
                 mask = '✲';
-                toggleButton.Image = Properties.Resources.show_password;
+                btnShowHidePassword.Image = Properties.Resources.show_password;
             }
+        }
+        // Load the files given as args.
+        public void LoadFiles(params String[] files)
+        {
+            foreach (string file in files)
+            {
+                if (System.IO.File.Exists(file) && Application.ExecutablePath != file)
+                    txtFile.Items.Add(file);
+            }
+            btnZip.Enabled = true;
         }
 
         // Let the user pick files.
@@ -323,7 +329,6 @@ namespace avUpload
             AboutBox1 aboutBox = new AboutBox1();
 
             aboutBox.ShowDialog();
-//            MessageBox.Show(this, Properties.Resources.Description, Properties.Resources.ProgName, MessageBoxButtons.OK, MessageBoxIcon.None);
         }
         private void notifyIcon1_Click(object sender, MouseEventArgs e)
         {
@@ -417,11 +422,53 @@ namespace avUpload
                 }
             }
         }
+        private void context_Click(object sender, EventArgs e)
+        {
+            if (this.sendtoToolStripMenuItem.Checked == true)
+            {
+                RegisterContextMenu();
+            }
+            else
+            {
+                UnregisterContextMenu();
+                this.sendtoToolStripMenuItem.Checked = false;
+            }
+        }
         private void close_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Location = Location;
             Properties.Settings.Default.Save();
             Application.Exit();
+        }
+
+        // Register the context menu in the registry
+        private void RegisterContextMenu()
+        {
+            string programPath = Application.ExecutablePath;
+            RegisterContextEntry(programPath);
+        }
+
+        // Create a registry entry for the context menu
+        private void RegisterContextEntry(string programPath)
+        {
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey($"Software\\Classes\\*\\shell\\AvUpload"))
+            {
+                key.SetValue("", "Avast Whitelisting");
+                key.SetValue("NoWorkingDirectory", "");
+                key.SetValue("Position", "bottom");
+                key.SetValue("Icon", programPath + ",0");
+            }
+
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey($"Software\\Classes\\*\\shell\\AvUpload\\command"))
+            {
+                key.SetValue("", $"\"{programPath}\" \"%1\"");
+            }
+        }
+
+        // Unregister the context menu from the registry
+        private void UnregisterContextMenu()
+        {
+            Registry.CurrentUser.DeleteSubKeyTree($"Software\\Classes\\*\\shell\\AvUpload", false);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
