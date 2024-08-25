@@ -79,6 +79,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Avast Whitelisting Program Registration form ähnelt.
+        /// </summary>
+        public static string AvastWhitelistingProgramRegistrationForm {
+            get {
+                return ResourceManager.GetString("AvastWhitelistingProgramRegistrationForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
         public static System.Drawing.Icon avUpload {
@@ -117,7 +126,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Copyright &amp;copy; 2021-2023 Manfred M&amp;#252;ller, ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copyright &amp;copy; 2021-2024 Manfred M&amp;#252;ller, ähnelt.
         /// </summary>
         public static string Copyright {
             get {
@@ -135,12 +144,12 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A small application for zipping and uploading a file to the Avast® whitelisting server. 
+        ///   Sucht eine lokalisierte Zeichenfolge, die A small application for zipping and uploading a file to the Avast® whitelisting server to reduce the risk of false positive detections. 
         ///The window is a topmost window, supports drag&amp;drop and stores it&apos;s last position.
         ///The program can be (un)linked to the users desktop and sendto context menu via the tray menu.
         ///Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
         ///
-        ///Choose file(s) via filechooser or drag&amp;drop (marked file(s) can be removed via right click). Click on the zip button to create the archive.  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///Choose file(s) via filechooser or drag&amp;drop (marked file(s) can be removed via right click). [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Description {
             get {
@@ -269,6 +278,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No credentials found. ähnelt.
+        /// </summary>
+        public static string NoApiCredentialsFound {
+            get {
+                return ResourceManager.GetString("NoApiCredentialsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Password: ähnelt.
         /// </summary>
         public static string Password {
@@ -283,6 +301,26 @@ namespace avUpload.Properties {
         public static string PickFile {
             get {
                 return ResourceManager.GetString("PickFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Avast/AVG file whitelisting is a service provided mainly to software developers to reduce the risk of false positive detections.
+        ///
+        ///When you join the Whitelisting Program and submit an application file, the Avast Threat Labs analysts review the software for malicious or unwanted activity. Applications that are both free from malware and meet our guidelines for application transparency can be whitelisted. If determined clean, the submitted file is moved to our set of approved files to ensure it is no longer  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string PleaseKeyInYourApiCredentials {
+            get {
+                return ResourceManager.GetString("PleaseKeyInYourApiCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please register by using the link below: ähnelt.
+        /// </summary>
+        public static string PleaseRegisterByUsingTheLinkBelow {
+            get {
+                return ResourceManager.GetString("PleaseRegisterByUsingTheLinkBelow", resourceCulture);
             }
         }
         

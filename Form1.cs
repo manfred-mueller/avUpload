@@ -109,6 +109,11 @@ namespace avUpload
                 txtUsername.Text = (string)regKey.GetValue("Username", null);
                 txtPassword.Text = Decrypt();
                 txtEmail.Text = (string)regKey.GetValue("Email", null);
+            } else
+            {
+                AboutBox2 aboutBox = new AboutBox2();
+
+                aboutBox.ShowDialog();
             }
 
             btnSave.Enabled = false;
@@ -130,13 +135,6 @@ namespace avUpload
             {
                 this.sendtoToolStripMenuItem.Checked = true;
             }
-        }
-
-        // Start with the executable file.
-        private void Mainform_Load(object sender, EventArgs e)
-        {
-//            lblStatus.Text = Properties.Resources.Done;
-//            txtFile.Text = Application.ExecutablePath;
         }
 
         public void btnShowHidePassword_Click(object sender, EventArgs e)

@@ -130,7 +130,7 @@
     <value>Pick file</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>A small application for zipping and uploading a file to the Avast® whitelisting server. 
+    <value>A small application for zipping and uploading a file to the Avast® whitelisting server to reduce the risk of false positive detections. 
 The window is a topmost window, supports drag&amp;drop and stores it's last position.
 The program can be (un)linked to the users desktop and sendto context menu via the tray menu.
 Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
@@ -241,7 +241,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
     <value>Company name</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>Copyright &amp;copy; 2021-2023 Manfred M&amp;#252;ller,</value>
+    <value>Copyright &amp;copy; 2021-2024 Manfred M&amp;#252;ller,</value>
     <comment>@Invariant</comment>
   </data>
   <data name="DesktopLink" xml:space="preserve">
@@ -256,5 +256,19 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   <data name="Help" xml:space="preserve">
     <value>&amp;#8263;</value>
     <comment>@Invariant</comment>
+  </data>
+  <data name="NoApiCredentialsFound" xml:space="preserve">
+    <value>No credentials found.</value>
+  </data>
+  <data name="PleaseKeyInYourApiCredentials" xml:space="preserve">
+    <value>Avast/AVG file whitelisting is a service provided mainly to software developers to reduce the risk of false positive detections.
+
+When you join the Whitelisting Program and submit an application file, the Avast Threat Labs analysts review the software for malicious or unwanted activity. Applications that are both free from malware and meet our guidelines for application transparency can be whitelisted. If determined clean, the submitted file is moved to our set of approved files to ensure it is no longer flagged as malicious.</value>
+  </data>
+  <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
+    <value>Avast Whitelisting Program Registration form</value>
+  </data>
+  <data name="PleaseRegisterByUsingTheLinkBelow" xml:space="preserve">
+    <value>Please register by using the link below:</value>
   </data>
 </root>
