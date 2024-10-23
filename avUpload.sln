@@ -4,6 +4,11 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "avUpload", "avUpload.csproj", "{B628D451-D84F-4CF2-A95F-399858F79DE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{E3D65CDC-0419-427F-95C3-777EBA418664}"
+	ProjectSection(SolutionItems) = preProject
+		InstallScript.iss = InstallScript.iss
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -3,7 +3,8 @@
 
 #define MyAppName "AvUpload"
 #define MyAppVersion "1.2.2"
-#define MyAppExeName MyAppName + ".exe"
+#define MyAppExeName "avUpload.exe"
+#define MyAppSetupName "avUpload_setup"
 #define MyAppPublisher "NASS e.K."
 #define MyAppURL "https://www.nass-ek.de"
 #define ProgramFiles GetEnv("ProgramFiles")
@@ -26,7 +27,7 @@ LicenseFile=D:\Dokumente\gpl_de.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=bin\Release
-OutputBaseFilename={#MyAppName}-Setup-{#MyAppVersion}
+OutputBaseFilename={#MyAppSetupName}-{#MyAppVersion}
 SetupIconFile=D:\Bilder\nass-ek.ico
 UninstallDisplayIcon={app}\{#MyAppExeName},0
 ;Begin adjustments for showing the logo
@@ -52,7 +53,7 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 Name: "{usersendto}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon;
 
 [Files]
-Source: "bin\Release\avUpload.exe"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Flags: confirmoverwrite
+Source: "bin\Release\avUpload.exe"; DestDir: "{app}"; Flags: confirmoverwrite
 Source: "bin\Release\avUpload.exe.config"; DestDir: "{app}"
 Source: "bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"

@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="avUpload.ico" />
+    <Content Include="InstallScript.iss" />
     <Content Include="version.xml" />
     <None Include="Resources\info.png" />
     <None Include="Resources\save.png" />
