@@ -28,12 +28,12 @@ jobs:
       - name: Find setup file and extract version
         id: get_version
         run: |
-          SETUP_FILE=$(ls ./bin/Release/${{ env.REPO_NAME }}_Setup-*.exe | tail -n 1)
+          SETUP_FILE=$(ls ./bin/Release/${{ env.REPO_NAME }}-Setup-*.exe | tail -n 1)
           if [ -z "$SETUP_FILE" ]; then
             echo "Setup file not found!"
             exit 1
           fi
-          VERSION=$(basename "$SETUP_FILE" | sed -E "s/${{ env.REPO_NAME }}_Setup-(.*)\.exe/\1/")
+          VERSION=$(basename "$SETUP_FILE" | sed -E "s/${{ env.REPO_NAME }}-Setup-(.*)\.exe/\1/")
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Setup file is: $SETUP_FILE"
           echo "Version extracted: $VERSION"
