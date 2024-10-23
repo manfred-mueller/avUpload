@@ -9,11 +9,11 @@ namespace avUpload
         public AboutBox2()
         {
             InitializeComponent();
-            Text = AssemblyProduct;
-            labelProductName.Text = avUpload.Properties.Resources.NoApiCredentialsFound;
+            Text = string.Format("{0} {1}", Properties.Resources.ProgName, AssemblyVersion);
+            labelProductName.Text = avUpload.Properties.Resources.NoCredentialsFound;
             labelVersion.Text = avUpload.Properties.Resources.PleaseRegisterByUsingTheLinkBelow;
             labelCompanyName.Text = AssemblyCompany;
-            textBoxDescription.Text = avUpload.Properties.Resources.PleaseKeyInYourApiCredentials;
+            textBoxDescription.Text = avUpload.Properties.Resources.WhitelistingServiceDescription;
             TopMost = true;
         }
 

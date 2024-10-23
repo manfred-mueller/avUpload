@@ -130,7 +130,7 @@
     <value>Pick file</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>A small application for zipping and uploading a file to the Avast® whitelisting server to reduce the risk of false positive detections. 
+    <value>A small application for zipping and uploading a file to the Avast® whitelisting server. 
 The window is a topmost window, supports drag&amp;drop and stores it's last position.
 The program can be (un)linked to the users desktop and sendto context menu via the tray menu.
 Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
@@ -232,7 +232,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
     <value>Create archive</value>
   </data>
   <data name="InfoAbout" xml:space="preserve">
-    <value>Info About</value>
+    <value>Info About {0} {1}</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Product name</value>
@@ -241,7 +241,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
     <value>Company name</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>Copyright &amp;copy; 2021-2024 Manfred M&amp;#252;ller,</value>
+    <value>Copyright &amp;copy; 2021-2023 Manfred M&amp;#252;ller,</value>
     <comment>@Invariant</comment>
   </data>
   <data name="DesktopLink" xml:space="preserve">
@@ -253,22 +253,36 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
   <data name="AnotherInstanceIsAlreadyRunning" xml:space="preserve">
     <value>Another instance is already running!</value>
   </data>
-  <data name="Help" xml:space="preserve">
-    <value>&amp;#8263;</value>
-    <comment>@Invariant</comment>
+  <data name="DecryptionFailed" xml:space="preserve">
+    <value>Decryption of {0} failed, please reinput.</value>
   </data>
-  <data name="NoApiCredentialsFound" xml:space="preserve">
-    <value>No credentials found.</value>
+  <data name="NoValueFoundInTheRegistryForKey0" xml:space="preserve">
+    <value>No value found in the registry for key {0}.</value>
   </data>
-  <data name="PleaseKeyInYourApiCredentials" xml:space="preserve">
+  <data name="PrivateKeyCannotBeNullOrEmpty" xml:space="preserve">
+    <value>Private key cannot be null or empty.</value>
+  </data>
+  <data name="PublicKeyCannotBeNullOrEmpty" xml:space="preserve">
+    <value>Public key cannot be null or empty.</value>
+  </data>
+  <data name="EncryptionFailed" xml:space="preserve">
+    <value>Encryption failed</value>
+  </data>
+  <data name="ErrorDuringFTPUpload0" xml:space="preserve">
+    <value>Error during FTP upload: {0}</value>
+  </data>
+  <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
+    <value>Avast whitelisting program registration form</value>
+  </data>
+  <data name="NoCredentialsFound" xml:space="preserve">
+    <value>No credentials found</value>
+  </data>
+  <data name="PleaseRegisterByUsingTheLinkBelow" xml:space="preserve">
+    <value>Please register by using the following link:</value>
+  </data>
+  <data name="WhitelistingServiceDescription" xml:space="preserve">
     <value>Avast/AVG file whitelisting is a service provided mainly to software developers to reduce the risk of false positive detections.
 
 When you join the Whitelisting Program and submit an application file, the Avast Threat Labs analysts review the software for malicious or unwanted activity. Applications that are both free from malware and meet our guidelines for application transparency can be whitelisted. If determined clean, the submitted file is moved to our set of approved files to ensure it is no longer flagged as malicious.</value>
-  </data>
-  <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
-    <value>Avast Whitelisting Program Registration form</value>
-  </data>
-  <data name="PleaseRegisterByUsingTheLinkBelow" xml:space="preserve">
-    <value>Please register by using the link below:</value>
   </data>
 </root>

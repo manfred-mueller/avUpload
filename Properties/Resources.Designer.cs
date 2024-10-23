@@ -79,7 +79,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Avast Whitelisting Program Registration form ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Avast whitelisting program registration form ähnelt.
         /// </summary>
         public static string AvastWhitelistingProgramRegistrationForm {
             get {
@@ -126,7 +126,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Copyright &amp;copy; 2021-2024 Manfred M&amp;#252;ller, ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copyright &amp;copy; 2021-2023 Manfred M&amp;#252;ller, ähnelt.
         /// </summary>
         public static string Copyright {
             get {
@@ -144,12 +144,21 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A small application for zipping and uploading a file to the Avast® whitelisting server to reduce the risk of false positive detections. 
+        ///   Sucht eine lokalisierte Zeichenfolge, die Decryption of {0} failed, please reinput. ähnelt.
+        /// </summary>
+        public static string DecryptionFailed {
+            get {
+                return ResourceManager.GetString("DecryptionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A small application for zipping and uploading a file to the Avast® whitelisting server. 
         ///The window is a topmost window, supports drag&amp;drop and stores it&apos;s last position.
         ///The program can be (un)linked to the users desktop and sendto context menu via the tray menu.
         ///Application settings including encrypted password can be stored under HKCU in the Windows™ registry.
         ///
-        ///Choose file(s) via filechooser or drag&amp;drop (marked file(s) can be removed via right click). [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///Choose file(s) via filechooser or drag&amp;drop (marked file(s) can be removed via right click). Click on the zip button to create the archive.  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Description {
             get {
@@ -194,11 +203,29 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encryption failed ähnelt.
+        /// </summary>
+        public static string EncryptionFailed {
+            get {
+                return ResourceManager.GetString("EncryptionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
         /// </summary>
         public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error during FTP upload: {0} ähnelt.
+        /// </summary>
+        public static string ErrorDuringFTPUpload0 {
+            get {
+                return ResourceManager.GetString("ErrorDuringFTPUpload0", resourceCulture);
             }
         }
         
@@ -218,15 +245,6 @@ namespace avUpload.Properties {
         public static string Files {
             get {
                 return ResourceManager.GetString("Files", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;#8263; ähnelt.
-        /// </summary>
-        public static string Help {
-            get {
-                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
@@ -251,7 +269,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Info About ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Info About {0} {1} ähnelt.
         /// </summary>
         public static string InfoAbout {
             get {
@@ -278,11 +296,20 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die No credentials found. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die No credentials found ähnelt.
         /// </summary>
-        public static string NoApiCredentialsFound {
+        public static string NoCredentialsFound {
             get {
-                return ResourceManager.GetString("NoApiCredentialsFound", resourceCulture);
+                return ResourceManager.GetString("NoCredentialsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No value found in the registry for key {0}. ähnelt.
+        /// </summary>
+        public static string NoValueFoundInTheRegistryForKey0 {
+            get {
+                return ResourceManager.GetString("NoValueFoundInTheRegistryForKey0", resourceCulture);
             }
         }
         
@@ -305,22 +332,20 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Avast/AVG file whitelisting is a service provided mainly to software developers to reduce the risk of false positive detections.
-        ///
-        ///When you join the Whitelisting Program and submit an application file, the Avast Threat Labs analysts review the software for malicious or unwanted activity. Applications that are both free from malware and meet our guidelines for application transparency can be whitelisted. If determined clean, the submitted file is moved to our set of approved files to ensure it is no longer  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
-        /// </summary>
-        public static string PleaseKeyInYourApiCredentials {
-            get {
-                return ResourceManager.GetString("PleaseKeyInYourApiCredentials", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Please register by using the link below: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please register by using the following link: ähnelt.
         /// </summary>
         public static string PleaseRegisterByUsingTheLinkBelow {
             get {
                 return ResourceManager.GetString("PleaseRegisterByUsingTheLinkBelow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Private key cannot be null or empty. ähnelt.
+        /// </summary>
+        public static string PrivateKeyCannotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("PrivateKeyCannotBeNullOrEmpty", resourceCulture);
             }
         }
         
@@ -339,6 +364,15 @@ namespace avUpload.Properties {
         public static string ProgName {
             get {
                 return ResourceManager.GetString("ProgName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public key cannot be null or empty. ähnelt.
+        /// </summary>
+        public static string PublicKeyCannotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("PublicKeyCannotBeNullOrEmpty", resourceCulture);
             }
         }
         
@@ -478,6 +512,17 @@ namespace avUpload.Properties {
         public static string WhitelistExe {
             get {
                 return ResourceManager.GetString("WhitelistExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Avast/AVG file whitelisting is a service provided mainly to software developers to reduce the risk of false positive detections.
+        ///
+        ///When you join the Whitelisting Program and submit an application file, the Avast Threat Labs analysts review the software for malicious or unwanted activity. Applications that are both free from malware and meet our guidelines for application transparency can be whitelisted. If determined clean, the submitted file is moved to our set of approved files to ensure it is no longer  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string WhitelistingServiceDescription {
+            get {
+                return ResourceManager.GetString("WhitelistingServiceDescription", resourceCulture);
             }
         }
         

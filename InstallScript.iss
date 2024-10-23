@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AvUpload"
-#define MyAppVersion "1.2.1"
+#define MyAppVersion "1.2.2"
 #define MyAppExeName MyAppName + ".exe"
 #define MyAppPublisher "NASS e.K."
 #define MyAppURL "https://www.nass-ek.de"
@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 LicenseFile=D:\Dokumente\gpl_de.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=.\bin\Release
+OutputDir=bin\Release
 OutputBaseFilename={#MyAppName}-Setup-{#MyAppVersion}
 SetupIconFile=D:\Bilder\nass-ek.ico
 UninstallDisplayIcon={app}\{#MyAppExeName},0
@@ -38,32 +38,26 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 ChangesAssociations = yes
-SignTool=Certum
+SignTool=CertumVS
 
 [Languages]
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon;
-
-[Registry]
-Root: HKCR; Subkey: ".pdf";                             ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}";                     ValueData: "Program {#MyAppName}";  Flags: uninsdeletekey;   ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";         ValueData: "{app}\{#MyAppExeName},0";                        ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}\shell\open\command";  ValueData: """{app}\{#MyAppExeName}"" %1";                   ValueType: string;  ValueName: ""
+Name: "{usersendto}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon;
 
 [Files]
-Source: ".\bin\Release\avUpload.exe"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Flags: confirmoverwrite
-Source: ".\bin\Release\avUpload.exe.config"; DestDir: "{app}"
-Source: ".\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
-Source: ".\bin\Release\de\AutoUpdater.NET.resources.dll"; DestDir: "{app}\de"
-Source: ".\bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"
-Source: ".\bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"
-Source: ".\bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"
+Source: "bin\Release\avUpload.exe"; DestDir: "{app}"; DestName: "{#MyAppExeName}"; Flags: confirmoverwrite
+Source: "bin\Release\avUpload.exe.config"; DestDir: "{app}"
+Source: "bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
+Source: "bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"
+Source: "bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"
+Source: "bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"
 
 [Code]
 

@@ -34,7 +34,11 @@ namespace avUpload
             Form1 form = MainForm as Form1;
             if (e.CommandLine.Count > 1)
             {
-                form.LoadFiles(e.CommandLine[1]);
+                for (int i = 1; i < e.CommandLine.Count; i++)
+                {
+                    string file = e.CommandLine[i];
+                    form.LoadFile(file);
+                }
             }
         }
 

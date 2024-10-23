@@ -9,6 +9,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using IWshRuntimeLibrary;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace avUpload
 {
@@ -19,72 +22,77 @@ namespace avUpload
         public string zipUpload = null;
         public char mask = '✲';
         RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\NASS e.K.\Avast-Whitelisting", true);
-        public string linkName = null;
         public string linkPath = null;
         public string sendtoPath = null;
-        public string publicKey = "52830761";
-        public string privateKey = "Cfg_!7KjH";
+        public string publickey = "52830761";
+        public string privatekey = "Cfg_!7KjH";
 
-        public string Encrypt()
+        public string Encrypt(string textToEncrypt)
         {
             try
             {
-                string textToEncrypt = txtPassword.Text;
                 string ToReturn = "";
-                byte[] privatekeyByte = { };
-                privatekeyByte = Encoding.UTF8.GetBytes(privateKey);
-                byte[] publickeybyte = { };
-                publickeybyte = Encoding.UTF8.GetBytes(publicKey);
-                MemoryStream ms = null;
-                CryptoStream cs = null;
+                byte[] privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
+                byte[] publickeybyte = Encoding.UTF8.GetBytes(publickey);
+
                 byte[] inputbyteArray = Encoding.UTF8.GetBytes(textToEncrypt);
                 using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                using (MemoryStream ms = new MemoryStream())
+                using (CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write))
                 {
-                    ms = new MemoryStream();
-                    cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
                     cs.Write(inputbyteArray, 0, inputbyteArray.Length);
                     cs.FlushFinalBlock();
                     ToReturn = Convert.ToBase64String(ms.ToArray());
                 }
+
                 return ToReturn;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex.InnerException);
+                throw new Exception(avUpload.Properties.Resources.EncryptionFailed, ex);
             }
         }
 
-        public string Decrypt()
+        public string Decrypt(string textToDecrypt)
         {
+            if (string.IsNullOrEmpty(publickey))
+            {
+                throw new ArgumentNullException(nameof(publickey), avUpload.Properties.Resources.PublicKeyCannotBeNullOrEmpty);
+            }
+
+            if (string.IsNullOrEmpty(privatekey))
+            {
+                throw new ArgumentNullException(nameof(privatekey), avUpload.Properties.Resources.PrivateKeyCannotBeNullOrEmpty);
+            }
+
             try
             {
-                string textToDecrypt = (string)regKey.GetValue("Password", null);
-                string ToReturn = "";
-                byte[] privatekeyByte = { };
-                privatekeyByte = Encoding.UTF8.GetBytes(privateKey);
-                byte[] publickeybyte = { };
-                publickeybyte = Encoding.UTF8.GetBytes(publicKey);
-                MemoryStream ms = null;
-                CryptoStream cs = null;
-                byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
-                inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
-                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                string encryptedText = (string)regKey.GetValue(textToDecrypt, null);
+                if (encryptedText == null)
                 {
-                    ms = new MemoryStream();
-                    cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write);
+                    throw new Exception(String.Format(avUpload.Properties.Resources.NoValueFoundInTheRegistryForKey0, textToDecrypt));
+                }
+
+                byte[] privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
+                byte[] publickeybyte = Encoding.UTF8.GetBytes(publickey);
+
+                byte[] inputbyteArray = Convert.FromBase64String(encryptedText.Replace(" ", "+"));
+
+                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                using (MemoryStream ms = new MemoryStream())
+                using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write))
+                {
                     cs.Write(inputbyteArray, 0, inputbyteArray.Length);
                     cs.FlushFinalBlock();
-                    Encoding encoding = Encoding.UTF8;
-                    ToReturn = encoding.GetString(ms.ToArray());
+                    return Encoding.UTF8.GetString(ms.ToArray());
                 }
-                return ToReturn;
             }
-            catch (Exception ae)
+            catch (Exception)
             {
-                throw new Exception(ae.Message, ae.InnerException);
+                return (string)regKey.GetValue(textToDecrypt, null); ;
             }
         }
-        
+
         public Form1(string[] args)
         {
             InitializeComponent();
@@ -94,9 +102,14 @@ namespace avUpload
             Location = Properties.Settings.Default.Location;
             TopMost = true;
             AllowDrop = true;
-            if (args.Length > 0)
+            if (args.Length > 1) // Check if there's more than one argument
             {
-                LoadFiles(args);
+                for (int i = 1; i < args.Length; i++) // Start from index 1 to skip the first file
+                {
+                    string file = args[i];
+                    txtFile.Items.Add(file);
+                }
+                btnZip.Enabled = true;
             }
             else
             {
@@ -105,11 +118,12 @@ namespace avUpload
 
             if (regKey != null)
             {
-                txtUri.Text = (string)regKey.GetValue("Uri", null);
-                txtUsername.Text = (string)regKey.GetValue("Username", null);
-                txtPassword.Text = Decrypt();
-                txtEmail.Text = (string)regKey.GetValue("Email", null);
-            } else
+                txtUri.Text = Decrypt("Uri");
+                txtUsername.Text = Decrypt("Username");
+                txtPassword.Text = Decrypt("Password");
+                txtEmail.Text = Decrypt("Email");
+            }
+            else
             {
                 AboutBox2 aboutBox = new AboutBox2();
 
@@ -124,9 +138,10 @@ namespace avUpload
             txtPassword.TextChanged += new EventHandler(ChangeHandler);
             txtEmail.TextChanged += new EventHandler(ChangeHandler);
 
-            linkName = Properties.Resources.ProgName + ".lnk";
-            linkPath = (@Environment.GetEnvironmentVariable("USERPROFILE") + "\\Desktop\\" + linkName);
-            sendtoPath = (@Environment.GetEnvironmentVariable("USERPROFILE") + "\\AppData\\Roaming\\Microsoft\\Windows\\SendTo\\" + linkName);
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            linkPath = String.Format("{0}\\Desktop\\{1}.lnk", @Environment.GetEnvironmentVariable("USERPROFILE"), Properties.Resources.ProgName);
+            sendtoPath = String.Format("{0}\\AppData\\Roaming\\Microsoft\\Windows\\SendTo\\{1}.lnk", @Environment.GetEnvironmentVariable("USERPROFILE"), fvi.ProductName);
             if (System.IO.File.Exists(linkPath))
             {
                 this.linkToolStripMenuItem.Checked = true;
@@ -137,31 +152,28 @@ namespace avUpload
             }
         }
 
-        public void btnShowHidePassword_Click(object sender, EventArgs e)
+        // Start with the executable file.
+        private void Mainform_Load(object sender, EventArgs e)
+        {
+            lblStatus.Text = Properties.Resources.Done;
+            txtFile.Text = Application.ExecutablePath;
+        }
+
+        public void toggleButton_Click(object sender, EventArgs e)
         {
             if (mask == '✲')
             {
                 txtPassword.PasswordChar = '\0';
                 mask = '\0';
-                btnShowHidePassword.Image = Properties.Resources.hide_password;
+                toggleButton.Image = Properties.Resources.hide_password;
 
             }
             else
             {
                 txtPassword.PasswordChar = '✲';
                 mask = '✲';
-                btnShowHidePassword.Image = Properties.Resources.show_password;
+                toggleButton.Image = Properties.Resources.show_password;
             }
-        }
-        // Load the files given as args.
-        public void LoadFiles(params String[] files)
-        {
-            foreach (string file in files)
-            {
-                if (System.IO.File.Exists(file) && Application.ExecutablePath != file)
-                    txtFile.Items.Add(file);
-            }
-            btnZip.Enabled = true;
         }
 
         // Let the user pick files.
@@ -218,7 +230,7 @@ namespace avUpload
         }
 
         // Upload the selected file.
-        private void btnUpload_Click(object sender, EventArgs e)
+        private async void btnUpload_Click(object sender, EventArgs e)
         {
             try
             {
@@ -226,8 +238,8 @@ namespace avUpload
                 lblStatus.Text = Properties.Resources.Working;
                 Application.DoEvents();
 
-                FtpUploadFile(zipUpload, txtUri.Text,
-                    txtUsername.Text, txtPassword.Text);
+                // Call the asynchronous FTP upload function.
+                await FtpUploadFileAsync(zipUpload, txtUri.Text, txtUsername.Text, txtPassword.Text);
 
                 lblStatus.Text = Properties.Resources.Done;
             }
@@ -283,25 +295,36 @@ namespace avUpload
         }
 
         // Use FTP to upload a file.
-        private void FtpUploadFile(string filename, string to_uri, string user_name, string password)
+        private async Task FtpUploadFileAsync(string filename, string to_uri, string user_name, string password)
         {
-            // Get the object used to communicate with the server.
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(to_uri);
-            request.Method = WebRequestMethods.Ftp.UploadFile;
-
-            // Get network credentials.
-            request.Credentials = new NetworkCredential(user_name.Normalize(), password.Normalize());
-            
-
-            // Read the file's contents into a byte array.
-            byte[] bytes = System.IO.File.ReadAllBytes(filename);
-
-            // Write the bytes into the request stream.
-            request.ContentLength = bytes.Length;
-            using (Stream request_stream = request.GetRequestStream())
+            try
             {
-                request_stream.Write(bytes, 0, bytes.Length);
-                request_stream.Close();
+                // Get the object used to communicate with the server.
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(to_uri);
+                request.Method = WebRequestMethods.Ftp.UploadFile;
+
+                // Get network credentials.
+                request.Credentials = new NetworkCredential(user_name.Normalize(), password.Normalize());
+
+                // Open the file stream asynchronously and read its contents into a byte array.
+                byte[] bytes;
+                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+                {
+                    bytes = new byte[fs.Length];
+                    await fs.ReadAsync(bytes, 0, (int)fs.Length);
+                }
+
+                // Write the bytes into the request stream asynchronously.
+                request.ContentLength = bytes.Length;
+                using (Stream requestStream = await request.GetRequestStreamAsync())
+                {
+                    await requestStream.WriteAsync(bytes, 0, bytes.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during the upload process.
+                MessageBox.Show(String.Format(avUpload.Properties.Resources.ErrorDuringFTPUpload0, ex.Message), avUpload.Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -316,10 +339,10 @@ namespace avUpload
             {
                 regKey = Registry.CurrentUser.CreateSubKey("SOFTWARE\\NASS e.K.\\Avast-Whitelisting");
             }
-            regKey.SetValue("Uri", txtUri.Text);
-            regKey.SetValue("Username", txtUsername.Text);
-            regKey.SetValue("Password", Encrypt());
-            regKey.SetValue("Email", txtEmail.Text);
+            regKey.SetValue("Uri", Encrypt(txtUri.Text));
+            regKey.SetValue("Username", Encrypt(txtUsername.Text));
+            regKey.SetValue("Password", Encrypt(txtPassword.Text));
+            regKey.SetValue("Email", Encrypt(txtEmail.Text));
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
@@ -420,53 +443,11 @@ namespace avUpload
                 }
             }
         }
-        private void context_Click(object sender, EventArgs e)
-        {
-            if (this.sendtoToolStripMenuItem.Checked == true)
-            {
-                RegisterContextMenu();
-            }
-            else
-            {
-                UnregisterContextMenu();
-                this.sendtoToolStripMenuItem.Checked = false;
-            }
-        }
         private void close_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Location = Location;
             Properties.Settings.Default.Save();
             Application.Exit();
-        }
-
-        // Register the context menu in the registry
-        private void RegisterContextMenu()
-        {
-            string programPath = Application.ExecutablePath;
-            RegisterContextEntry(programPath);
-        }
-
-        // Create a registry entry for the context menu
-        private void RegisterContextEntry(string programPath)
-        {
-            using (RegistryKey key = Registry.CurrentUser.CreateSubKey($"Software\\Classes\\*\\shell\\AvUpload"))
-            {
-                key.SetValue("", "Avast Whitelisting");
-                key.SetValue("NoWorkingDirectory", "");
-                key.SetValue("Position", "bottom");
-                key.SetValue("Icon", programPath + ",0");
-            }
-
-            using (RegistryKey key = Registry.CurrentUser.CreateSubKey($"Software\\Classes\\*\\shell\\AvUpload\\command"))
-            {
-                key.SetValue("", $"\"{programPath}\" \"%1\"");
-            }
-        }
-
-        // Unregister the context menu from the registry
-        private void UnregisterContextMenu()
-        {
-            Registry.CurrentUser.DeleteSubKeyTree($"Software\\Classes\\*\\shell\\AvUpload", false);
         }
 
         private void formClosing(object sender, FormClosingEventArgs e)
@@ -498,6 +479,14 @@ namespace avUpload
         private void txtFile_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+        public void LoadFile(string file)
+        {
+            if (System.IO.File.Exists(file))
+            {
+                txtFile.Items.Add(file);
+            }
+
         }
     }
 }

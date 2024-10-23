@@ -1,5 +1,7 @@
 ﻿
+using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace avUpload
@@ -48,7 +50,7 @@ namespace avUpload
             this.ofdFile = new System.Windows.Forms.OpenFileDialog();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.lblEmail = new System.Windows.Forms.Label();
-            this.btnShowHidePassword = new System.Windows.Forms.Button();
+            this.toggleButton = new System.Windows.Forms.Button();
             this.btnAbout = new System.Windows.Forms.Button();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -205,18 +207,18 @@ namespace avUpload
             this.lblEmail.TabIndex = 33;
             this.lblEmail.Text = avUpload.Properties.Resources.Email;
             // 
-            // btnShowHidePassword
+            // toggleButton
             // 
-            this.btnShowHidePassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowHidePassword.BackColor = System.Drawing.SystemColors.Control;
-            this.btnShowHidePassword.Image = global::avUpload.Properties.Resources.show_password;
-            this.btnShowHidePassword.Location = new System.Drawing.Point(432, 62);
-            this.btnShowHidePassword.Name = "btnShowHidePassword";
-            this.btnShowHidePassword.Size = new System.Drawing.Size(30, 23);
-            this.btnShowHidePassword.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.btnShowHidePassword, global::avUpload.Properties.Resources.ShowHidePassword);
-            this.btnShowHidePassword.UseVisualStyleBackColor = false;
-            this.btnShowHidePassword.Click += new System.EventHandler(this.btnShowHidePassword_Click);
+            this.toggleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.toggleButton.BackColor = System.Drawing.SystemColors.Control;
+            this.toggleButton.Image = global::avUpload.Properties.Resources.show_password;
+            this.toggleButton.Location = new System.Drawing.Point(432, 62);
+            this.toggleButton.Name = "toggleButton";
+            this.toggleButton.Size = new System.Drawing.Size(30, 23);
+            this.toggleButton.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.toggleButton, global::avUpload.Properties.Resources.ShowHidePassword);
+            this.toggleButton.UseVisualStyleBackColor = false;
+            this.toggleButton.Click += new System.EventHandler(this.toggleButton_Click);
             // 
             // btnAbout
             // 
@@ -267,7 +269,7 @@ namespace avUpload
             this.sendtoToolStripMenuItem.Name = "sendtoToolStripMenuItem";
             this.sendtoToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.sendtoToolStripMenuItem.Text = global::avUpload.Properties.Resources.SendToLink;
-            this.sendtoToolStripMenuItem.Click += new System.EventHandler(this.context_Click);
+            this.sendtoToolStripMenuItem.Click += new System.EventHandler(this.sendto_Click);
             // 
             // notifyIcon1
             // 
@@ -326,7 +328,7 @@ namespace avUpload
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnZip);
             this.Controls.Add(this.btnAbout);
-            this.Controls.Add(this.btnShowHidePassword);
+            this.Controls.Add(this.toggleButton);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.btnPickFile);
@@ -341,8 +343,9 @@ namespace avUpload
             this.Controls.Add(this.txtUri);
             this.Controls.Add(this.lblUri);
             this.Icon = global::avUpload.Properties.Resources.avUpload;
-            this.Name = "Mainform";
-            this.Text = avUpload.Properties.Resources.ProgName;
+            this.Name = "Form1";
+            Version shortVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = string.Format(avUpload.Properties.Resources.ProgName + $" {shortVersion.Major}.{shortVersion.Minor}.{shortVersion.Build}");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formClosing);
             this.Load += new System.EventHandler(this.formLoading);
             this.trayIconContextMenuStrip.ResumeLayout(false);
@@ -367,7 +370,7 @@ namespace avUpload
         private System.Windows.Forms.OpenFileDialog ofdFile;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.Button btnShowHidePassword;
+        private System.Windows.Forms.Button toggleButton;
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ToolTip toolTip1;

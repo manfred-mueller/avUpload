@@ -124,7 +124,7 @@
     <value>Beenden</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Eine kleine Anwendung, um eine Datei gepackt zum Whitelisting-Server von Avast® hochzuladen um sogenannte 'false positives' zu vermeiden.
+    <value>Eine kleine Anwendung, um eine Datei gepackt zum Whitelisting-Server von Avast® hochzuladen.
 
 Datei(en) per Drag&amp;Drop oder Auswahlbutton auswählen (markierte Datei(en) optional per Rechtsklick entfernen). Auf den Zip-Button zum Erstellen des Archives klicken. Auf den Upload-Button zum Hochladen des Archives klicken.
 
@@ -202,7 +202,7 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
     <value>Firmenname</value>
   </data>
   <data name="InfoAbout" xml:space="preserve">
-    <value>Info über</value>
+    <value>Info über {0} {1}</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Produktname</value>
@@ -216,18 +216,36 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
   <data name="AnotherInstanceIsAlreadyRunning" xml:space="preserve">
     <value>Eine andere Instanz ist bereits aktiv!</value>
   </data>
-  <data name="NoApiCredentialsFound" xml:space="preserve">
-    <value>Keine Anmeldeinformationen gefunden.</value>
+  <data name="DecryptionFailed" xml:space="preserve">
+    <value>Entschlüsselung von {0} fehlgeschlagen, bitte neu eingeben.</value>
   </data>
-  <data name="PleaseKeyInYourApiCredentials" xml:space="preserve">
+  <data name="NoValueFoundInTheRegistryForKey0" xml:space="preserve">
+    <value>Kein Registrierungswert für Schlüssel {0} gefunden.</value>
+  </data>
+  <data name="PrivateKeyCannotBeNullOrEmpty" xml:space="preserve">
+    <value>Der private Schlüssel darf nicht null oder leer sein.</value>
+  </data>
+  <data name="PublicKeyCannotBeNullOrEmpty" xml:space="preserve">
+    <value>Der öffentliche Schlüssel darf nicht leer sein.</value>
+  </data>
+  <data name="EncryptionFailed" xml:space="preserve">
+    <value>Verschlüsselung fehlgeschlagen</value>
+  </data>
+  <data name="ErrorDuringFTPUpload0" xml:space="preserve">
+    <value>Fehler beim FTP-Upload: {0}</value>
+  </data>
+  <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
+    <value>Anmeldeformular für das Avast Whitelisting-Programm</value>
+  </data>
+  <data name="NoCredentialsFound" xml:space="preserve">
+    <value>Keine Anmeldedaten gefunden</value>
+  </data>
+  <data name="PleaseRegisterByUsingTheLinkBelow" xml:space="preserve">
+    <value>Bitte registrieren Sie sich über den folgenden Link:</value>
+  </data>
+  <data name="WhitelistingServiceDescription" xml:space="preserve">
     <value>Avast/AVG File Whitelisting ist ein Service, der vor allem Softwareentwicklern zur Verfügung gestellt wird, um das Risiko falsch positiver Erkennungen zu verringern.
 
 Wenn Sie dem Whitelisting-Programm beitreten und eine Anwendungsdatei einreichen, überprüfen die Analysten von Avast Threat Labs die Software auf bösartige oder unerwünschte Aktivitäten. Anwendungen, die frei von Malware sind und unsere Richtlinien für Anwendungstransparenz erfüllen, können in die Whitelist aufgenommen werden. Wenn die eingereichte Datei für sauber befunden wird, wird sie in die Liste der zugelassenen Dateien aufgenommen, um sicherzustellen, dass sie nicht mehr als bösartig gekennzeichnet wird.</value>
-  </data>
-  <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
-    <value>Avast Whitelisting Programm Registrierungsformular</value>
-  </data>
-  <data name="PleaseRegisterByUsingTheLinkBelow" xml:space="preserve">
-    <value>Bitte registrieren Sie sich über den nachstehenden Link:</value>
   </data>
 </root>
