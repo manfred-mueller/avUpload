@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Reflection;
 
+using Renci.SshNet;
+
 namespace avUpload
 {
     public partial class Form1 : Form
@@ -26,6 +28,7 @@ namespace avUpload
         public string sendtoPath = null;
         public string publickey = "52830761";
         public string privatekey = "Cfg_!7KjH";
+
 
         public string Encrypt(string textToEncrypt)
         {
@@ -96,6 +99,8 @@ namespace avUpload
         public Form1(string[] args)
         {
             InitializeComponent();
+            Version shortVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = string.Format(avUpload.Properties.Resources.ProgName + $" {shortVersion.Major}.{shortVersion.Minor}.{shortVersion.Build}");
             WindowState = FormWindowState.Normal;           
             notifyIcon1.Icon = new Icon(Properties.Resources.avUpload, 48, 48);
             notifyIcon1.Visible = true;
@@ -157,8 +162,47 @@ namespace avUpload
         {
             lblStatus.Text = Properties.Resources.Done;
             txtFile.Text = Application.ExecutablePath;
+            // Get the path of the currently running executable
+            string exePath = Assembly.GetExecutingAssembly().Location;
+            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft\\Windows\\Start Menu\\Programs", "MyApp.lnk");
+
+            // Create a shortcut to the application if it doesn't already exist
+            if (!System.IO.File.Exists(shortcutPath))
+            {
+                CreateShortcut(shortcutPath, exePath);
+            }
+
+            // Pin the shortcut to the taskbar
+            PinToTaskbar(shortcutPath);
         }
 
+        private static void CreateShortcut(string shortcutPath, string targetPath)
+        {
+            var shell = new IWshRuntimeLibrary.WshShell();
+            var shortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(shortcutPath);
+            shortcut.TargetPath = targetPath;
+            shortcut.Save();
+        }
+
+        private static void PinToTaskbar(string shortcutPath)
+        {
+            // PowerShell script to pin the shortcut to the taskbar
+            string psScript = $@"
+            $shell = New-Object -ComObject Shell.Application
+            $folder = $shell.Namespace('{Path.GetDirectoryName(shortcutPath)}')
+            $item = $folder.ParseName('{Path.GetFileName(shortcutPath)}')
+            $item.InvokeVerb('taskbarpin')
+        ";
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "powershell",
+                Arguments = $"-Command \"{psScript}\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            });
+        }
         public void toggleButton_Click(object sender, EventArgs e)
         {
             if (mask == '✲')
@@ -239,7 +283,7 @@ namespace avUpload
                 Application.DoEvents();
 
                 // Call the asynchronous FTP upload function.
-                await FtpUploadFileAsync(zipUpload, txtUri.Text, txtUsername.Text, txtPassword.Text);
+                await SftpUploadFileAsync(zipUpload, txtUri.Text, txtUsername.Text, txtPassword.Text);
 
                 lblStatus.Text = Properties.Resources.Done;
             }
@@ -294,40 +338,74 @@ namespace avUpload
 
         }
 
-        // Use FTP to upload a file.
-        private async Task FtpUploadFileAsync(string filename, string to_uri, string user_name, string password)
+        private async Task SftpUploadFileAsync(string filename, string sftpUrl, string user_name, string password)
         {
             try
             {
-                // Get the object used to communicate with the server.
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(to_uri);
-                request.Method = WebRequestMethods.Ftp.UploadFile;
+                // Parse the URL to get the host, port, and directory
+                Uri uri = new Uri("sftp://" + sftpUrl); // Prepend "sftp://" to make it a valid URI
 
-                // Get network credentials.
-                request.Credentials = new NetworkCredential(user_name.Normalize(), password.Normalize());
+                string host = uri.Host;  // Host (e.g., whitelisting.avast.com)
+                int port = uri.Port;     // Port (e.g., 22)
+                string remoteDirectory = uri.AbsolutePath;  // Remote directory (e.g., /data)
 
-                // Open the file stream asynchronously and read its contents into a byte array.
-                byte[] bytes;
-                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+                // Ensure the remote directory is correctly formatted (without starting slash)
+                remoteDirectory = remoteDirectory.TrimStart('/');
+
+                // Create a connection to the SFTP server
+                var connectionInfo = new ConnectionInfo(host, port, user_name, new PasswordAuthenticationMethod(user_name, password));
+
+                using (var sftpClient = new SftpClient(connectionInfo))
                 {
-                    bytes = new byte[fs.Length];
-                    await fs.ReadAsync(bytes, 0, (int)fs.Length);
-                }
+                    // Attempt to connect
+                    sftpClient.Connect();
 
-                // Write the bytes into the request stream asynchronously.
-                request.ContentLength = bytes.Length;
-                using (Stream requestStream = await request.GetRequestStreamAsync())
-                {
-                    await requestStream.WriteAsync(bytes, 0, bytes.Length);
+                    if (sftpClient.IsConnected)
+                    {
+                        // Open the file stream asynchronously
+                        byte[] bytes;
+                        using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+                        {
+                            bytes = new byte[fs.Length];
+                            await fs.ReadAsync(bytes, 0, (int)fs.Length);
+                        }
+
+                        using (MemoryStream ms = new MemoryStream(bytes))
+                        {
+                            // Define the remote path for file upload
+                            string remotePath = "/" + remoteDirectory + "/" + Path.GetFileName(filename);
+
+                            // Ensure the directory exists before uploading
+                            if (!sftpClient.Exists("/" + remoteDirectory))
+                            {
+                                // Show a message if the directory does not exist
+                                MessageBox.Show(String.Format(avUpload.Properties.Resources.Directory0DoesNotExistOnTheServer, remoteDirectory), avUpload.Properties.Resources.DirectoryError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            // Upload the file to the SFTP server
+                            await Task.Run(() => sftpClient.UploadFile(ms, remotePath));
+
+                            // Show message after successful upload
+                            MessageBox.Show(avUpload.Properties.Resources.FileUploadedSuccessfully, avUpload.Properties.Resources.UploadSuccess, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
+                        // Disconnect after upload
+                        sftpClient.Disconnect();
+                    }
+                    else
+                    {
+                        // Show message if connection failed
+                        MessageBox.Show(avUpload.Properties.Resources.FailedToConnectToTheSFTPServer, avUpload.Properties.Resources.ConnectionFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                // Handle any errors that occur during the upload process.
-                MessageBox.Show(String.Format(avUpload.Properties.Resources.ErrorDuringFTPUpload0, ex.Message), avUpload.Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Catch any errors during the connection or upload process and show them
+                MessageBox.Show(String.Format(avUpload.Properties.Resources.Error0, ex.Message), avUpload.Properties.Resources.UploadError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         void ChangeHandler(object sender, EventArgs e)
         {
             btnSave.Enabled = true;

@@ -126,6 +126,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Connection Failed ähnelt.
+        /// </summary>
+        public static string ConnectionFailed {
+            get {
+                return ResourceManager.GetString("ConnectionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copyright &amp;copy; 2021-2023 Manfred M&amp;#252;ller, ähnelt.
         /// </summary>
         public static string Copyright {
@@ -176,6 +185,24 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Directory &apos;{0}&apos; does not exist on the server. ähnelt.
+        /// </summary>
+        public static string Directory0DoesNotExistOnTheServer {
+            get {
+                return ResourceManager.GetString("Directory0DoesNotExistOnTheServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Directory Error ähnelt.
+        /// </summary>
+        public static string DirectoryError {
+            get {
+                return ResourceManager.GetString("DirectoryError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Done ähnelt.
         /// </summary>
         public static string Done {
@@ -221,6 +248,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: {0} ähnelt.
+        /// </summary>
+        public static string Error0 {
+            get {
+                return ResourceManager.GetString("Error0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Error during FTP upload: {0} ähnelt.
         /// </summary>
         public static string ErrorDuringFTPUpload0 {
@@ -240,11 +276,29 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Failed to connect to the SFTP server. ähnelt.
+        /// </summary>
+        public static string FailedToConnectToTheSFTPServer {
+            get {
+                return ResourceManager.GetString("FailedToConnectToTheSFTPServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die File(s): ähnelt.
         /// </summary>
         public static string Files {
             get {
                 return ResourceManager.GetString("Files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File uploaded successfully! ähnelt.
+        /// </summary>
+        public static string FileUploadedSuccessfully {
+            get {
+                return ResourceManager.GetString("FileUploadedSuccessfully", resourceCulture);
             }
         }
         
@@ -476,6 +530,24 @@ namespace avUpload.Properties {
             get {
                 object obj = ResourceManager.GetObject("upload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Upload Error ähnelt.
+        /// </summary>
+        public static string UploadError {
+            get {
+                return ResourceManager.GetString("UploadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Upload Success ähnelt.
+        /// </summary>
+        public static string UploadSuccess {
+            get {
+                return ResourceManager.GetString("UploadSuccess", resourceCulture);
             }
         }
         

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AvUpload"
-#define MyAppVersion "1.2.2"
+#define MyAppVersion "1.3.0"
 #define MyAppExeName "avUpload.exe"
 #define MyAppSetupName "avUpload_setup"
 #define MyAppPublisher "NASS e.K."
@@ -39,7 +39,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 ChangesAssociations = yes
-SignTool=CertumVS
+SignTool=Certum
 
 [Languages]
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"

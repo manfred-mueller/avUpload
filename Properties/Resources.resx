@@ -285,4 +285,28 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
 
 When you join the Whitelisting Program and submit an application file, the Avast Threat Labs analysts review the software for malicious or unwanted activity. Applications that are both free from malware and meet our guidelines for application transparency can be whitelisted. If determined clean, the submitted file is moved to our set of approved files to ensure it is no longer flagged as malicious.</value>
   </data>
+  <data name="Directory0DoesNotExistOnTheServer" xml:space="preserve">
+    <value>Directory '{0}' does not exist on the server.</value>
+  </data>
+  <data name="DirectoryError" xml:space="preserve">
+    <value>Directory Error</value>
+  </data>
+  <data name="FileUploadedSuccessfully" xml:space="preserve">
+    <value>File uploaded successfully!</value>
+  </data>
+  <data name="UploadSuccess" xml:space="preserve">
+    <value>Upload Success</value>
+  </data>
+  <data name="FailedToConnectToTheSFTPServer" xml:space="preserve">
+    <value>Failed to connect to the SFTP server.</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>Connection Failed</value>
+  </data>
+  <data name="Error0" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="UploadError" xml:space="preserve">
+    <value>Upload Error</value>
+  </data>
 </root>
