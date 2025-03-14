@@ -204,7 +204,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo "D:\Tools\sign.cmd $(TargetPath) &amp;&amp; iscc /Q $(SolutionDir)InstallScript.iss"</PostBuildEvent>
+    <PostBuildEvent>D:\Tools\sign.cmd $(TargetPath) &amp;&amp; iscc /Q $(SolutionDir)InstallScript.iss</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

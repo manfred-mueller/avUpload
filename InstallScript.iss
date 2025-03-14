@@ -56,9 +56,19 @@ Name: "{usersendto}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: des
 Source: "bin\Release\avUpload.exe"; DestDir: "{app}"; Flags: confirmoverwrite
 Source: "bin\Release\avUpload.exe.config"; DestDir: "{app}"
 Source: "bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
+Source: "bin\Release\BouncyCastle.Cryptography.dll"; DestDir: "{app}"
+Source: "bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"
+Source: "bin\Release\Renci.SshNet.dll"; DestDir: "{app}"
+Source: "bin\Release\System.Buffers.dll"; DestDir: "{app}"
+Source: "bin\Release\System.Formats.Asn1.dll"; DestDir: "{app}"
+Source: "bin\Release\System.Memory.dll"; DestDir: "{app}"
+Source: "bin\Release\System.Numerics.Vectors.dll"; DestDir: "{app}"
+Source: "bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"
+Source: "bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"
+Source: "bin\Release\System.ValueTuple.dll"; DestDir: "{app}"
 
 [Code]
 

@@ -257,7 +257,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Error during FTP upload: {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error during SFTP upload: {0} ähnelt.
         /// </summary>
         public static string ErrorDuringFTPUpload0 {
             get {
@@ -294,7 +294,7 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die File uploaded successfully! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die File(s) uploaded successfully! ähnelt.
         /// </summary>
         public static string FileUploadedSuccessfully {
             get {

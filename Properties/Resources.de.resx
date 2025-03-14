@@ -232,7 +232,7 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
     <value>Verschlüsselung fehlgeschlagen</value>
   </data>
   <data name="ErrorDuringFTPUpload0" xml:space="preserve">
-    <value>Fehler beim FTP-Upload: {0}</value>
+    <value>Fehler beim SFTP-Upload: {0}</value>
   </data>
   <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
     <value>Anmeldeformular für das Avast Whitelisting-Programm</value>
@@ -247,5 +247,29 @@ NASS e.K. und avUpload sind in keinster Weise mit Avast® verbunden. Alle in die
     <value>Avast/AVG File Whitelisting ist ein Service, der vor allem Softwareentwicklern zur Verfügung gestellt wird, um das Risiko falsch positiver Erkennungen zu verringern.
 
 Wenn Sie dem Whitelisting-Programm beitreten und eine Anwendungsdatei einreichen, überprüfen die Analysten von Avast Threat Labs die Software auf bösartige oder unerwünschte Aktivitäten. Anwendungen, die frei von Malware sind und unsere Richtlinien für Anwendungstransparenz erfüllen, können in die Whitelist aufgenommen werden. Wenn die eingereichte Datei für sauber befunden wird, wird sie in die Liste der zugelassenen Dateien aufgenommen, um sicherzustellen, dass sie nicht mehr als bösartig gekennzeichnet wird.</value>
+  </data>
+  <data name="FileUploadedSuccessfully" xml:space="preserve">
+    <value>Datei(en) erfolgreich hochgeladen!</value>
+  </data>
+  <data name="UploadSuccess" xml:space="preserve">
+    <value>Hochladen erfolgreich</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>Verbindung fehlgeschlagen</value>
+  </data>
+  <data name="Directory0DoesNotExistOnTheServer" xml:space="preserve">
+    <value>Das Verzeichnis '{0}' existiert nicht auf dem Server.</value>
+  </data>
+  <data name="DirectoryError" xml:space="preserve">
+    <value>Verzeichnisfehler</value>
+  </data>
+  <data name="Error0" xml:space="preserve">
+    <value>Fehler: {0}</value>
+  </data>
+  <data name="FailedToConnectToTheSFTPServer" xml:space="preserve">
+    <value>Die Verbindung zum SFTP-Server konnte nicht hergestellt werden.</value>
+  </data>
+  <data name="UploadError" xml:space="preserve">
+    <value>Upload-Fehler</value>
   </data>
 </root>

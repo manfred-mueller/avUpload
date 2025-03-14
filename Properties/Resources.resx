@@ -269,7 +269,7 @@ NASS e.K. and avUpload are not related to Avast®. All trademarks and product na
     <value>Encryption failed</value>
   </data>
   <data name="ErrorDuringFTPUpload0" xml:space="preserve">
-    <value>Error during FTP upload: {0}</value>
+    <value>Error during SFTP upload: {0}</value>
   </data>
   <data name="AvastWhitelistingProgramRegistrationForm" xml:space="preserve">
     <value>Avast whitelisting program registration form</value>
@@ -292,7 +292,7 @@ When you join the Whitelisting Program and submit an application file, the Avast
     <value>Directory Error</value>
   </data>
   <data name="FileUploadedSuccessfully" xml:space="preserve">
-    <value>File uploaded successfully!</value>
+    <value>File(s) uploaded successfully!</value>
   </data>
   <data name="UploadSuccess" xml:space="preserve">
     <value>Upload Success</value>
