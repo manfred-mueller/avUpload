@@ -1,443 +1,383 @@
-﻿using Microsoft.Win32;
 using System;
-using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using System.Windows.Forms;
-using IWshRuntimeLibrary;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Reflection;
-
-using Renci.SshNet;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace avUpload
 {
     public partial class Form1 : Form
     {
-        public string timeStamp = null;
-        public string zipPath = null;
-        public string zipUpload = null;
-        public char mask = '✲';
-        RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\NASS e.K.\Avast-Whitelisting", true);
-        public string linkPath = null;
-        public string sendtoPath = null;
-        public string publickey = "52830761";
-        public string privatekey = "Cfg_!7KjH";
+        // ------------------------------------------------------------------ //
+        //  Felder
+        // ------------------------------------------------------------------ //
 
+        private CredentialStore _credentials;
+        private string          _zipUpload;         // Pfad zur aktuell erzeugten ZIP
+        private CancellationTokenSource _uploadCts; // für Abbruch-Button
 
-        public string Encrypt(string textToEncrypt)
-        {
-            try
-            {
-                string ToReturn = "";
-                byte[] privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
-                byte[] publickeybyte = Encoding.UTF8.GetBytes(publickey);
-
-                byte[] inputbyteArray = Encoding.UTF8.GetBytes(textToEncrypt);
-                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
-                using (MemoryStream ms = new MemoryStream())
-                using (CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write))
-                {
-                    cs.Write(inputbyteArray, 0, inputbyteArray.Length);
-                    cs.FlushFinalBlock();
-                    ToReturn = Convert.ToBase64String(ms.ToArray());
-                }
-
-                return ToReturn;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(avUpload.Properties.Resources.EncryptionFailed, ex);
-            }
-        }
-
-        public string Decrypt(string textToDecrypt)
-        {
-            if (string.IsNullOrEmpty(publickey))
-            {
-                throw new ArgumentNullException(nameof(publickey), avUpload.Properties.Resources.PublicKeyCannotBeNullOrEmpty);
-            }
-
-            if (string.IsNullOrEmpty(privatekey))
-            {
-                throw new ArgumentNullException(nameof(privatekey), avUpload.Properties.Resources.PrivateKeyCannotBeNullOrEmpty);
-            }
-
-            try
-            {
-                string encryptedText = (string)regKey.GetValue(textToDecrypt, null);
-                if (encryptedText == null)
-                {
-                    throw new Exception(String.Format(avUpload.Properties.Resources.NoValueFoundInTheRegistryForKey0, textToDecrypt));
-                }
-
-                byte[] privatekeyByte = Encoding.UTF8.GetBytes(privatekey);
-                byte[] publickeybyte = Encoding.UTF8.GetBytes(publickey);
-
-                byte[] inputbyteArray = Convert.FromBase64String(encryptedText.Replace(" ", "+"));
-
-                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
-                using (MemoryStream ms = new MemoryStream())
-                using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(publickeybyte, privatekeyByte), CryptoStreamMode.Write))
-                {
-                    cs.Write(inputbyteArray, 0, inputbyteArray.Length);
-                    cs.FlushFinalBlock();
-                    return Encoding.UTF8.GetString(ms.ToArray());
-                }
-            }
-            catch (Exception)
-            {
-                return (string)regKey.GetValue(textToDecrypt, null); ;
-            }
-        }
+        // ------------------------------------------------------------------ //
+        //  Konstruktor
+        // ------------------------------------------------------------------ //
 
         public Form1(string[] args)
         {
             InitializeComponent();
-            Version shortVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            this.Text = string.Format(avUpload.Properties.Resources.ProgName + $" {shortVersion.Major}.{shortVersion.Minor}.{shortVersion.Build}");
-            WindowState = FormWindowState.Normal;           
-            notifyIcon1.Icon = new Icon(Properties.Resources.avUpload, 48, 48);
+
+            // Versionsnummer im Titel
+            var ver = Assembly.GetExecutingAssembly().GetName().Version;
+            Text = $"{Properties.Resources.ProgName} {ver.Major}.{ver.Minor}.{ver.Build}";
+
+            // Tray-Icon
+            notifyIcon1.Icon    = new System.Drawing.Icon(Properties.Resources.avUpload, 48, 48);
             notifyIcon1.Visible = true;
+
+            // Fensterposition aus Settings laden
             Location = Properties.Settings.Default.Location;
-            TopMost = true;
+
+            // Immer im Vordergrund – aber nur solange kein Upload läuft
+            TopMost   = true;
             AllowDrop = true;
-            if (args.Length > 1) // Check if there's more than one argument
+
+            // Credentials laden
+            try
             {
-                for (int i = 1; i < args.Length; i++) // Start from index 1 to skip the first file
-                {
-                    string file = args[i];
-                    txtFile.Items.Add(file);
-                }
-                btnZip.Enabled = true;
+                _credentials     = new CredentialStore();
+                txtUri.Text      = _credentials.LoadUri();
+                txtUsername.Text = _credentials.LoadUsername();
+                txtPassword.Text = _credentials.LoadPassword();
+                txtEmail.Text    = _credentials.LoadEmail();
             }
-            else
+            catch (Exception ex)
             {
-                btnZip.Enabled = false;
+                // Registry-Schlüssel nicht verfügbar → Info-Dialog, dann weiter
+                MessageBox.Show(
+                    ex.Message,
+                    Properties.Resources.Error,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                // AboutBox2 zeigt Installations-Hinweise
+                using (var about = new AboutBox2())
+                    about.ShowDialog();
             }
 
-            if (regKey != null)
-            {
-                txtUri.Text = Decrypt("Uri");
-                txtUsername.Text = Decrypt("Username");
-                txtPassword.Text = Decrypt("Password");
-                txtEmail.Text = Decrypt("Email");
-            }
-            else
-            {
-                AboutBox2 aboutBox = new AboutBox2();
-
-                aboutBox.ShowDialog();
-            }
-
-            btnSave.Enabled = false;
+            // Buttons initial deaktivieren
+            btnSave.Enabled   = false;
+            btnZip.Enabled    = false;
             btnUpload.Enabled = false;
 
-            txtUri.TextChanged += new EventHandler(ChangeHandler);
-            txtUsername.TextChanged += new EventHandler(ChangeHandler);
-            txtPassword.TextChanged += new EventHandler(ChangeHandler);
-            txtEmail.TextChanged += new EventHandler(ChangeHandler);
+            // Dateien aus Kommandozeile laden (Start > 1, Index 0 = exe selbst)
+            if (args.Length > 1)
+            {
+                for (int i = 1; i < args.Length; i++)
+                    AddFileToList(args[i]);
+            }
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            linkPath = String.Format("{0}\\Desktop\\{1}.lnk", @Environment.GetEnvironmentVariable("USERPROFILE"), Properties.Resources.ProgName);
-            sendtoPath = String.Format("{0}\\AppData\\Roaming\\Microsoft\\Windows\\SendTo\\{1}.lnk", @Environment.GetEnvironmentVariable("USERPROFILE"), fvi.ProductName);
-            if (System.IO.File.Exists(linkPath))
-            {
-                this.linkToolStripMenuItem.Checked = true;
-            }
-            if (System.IO.File.Exists(sendtoPath))
-            {
-                this.sendtoToolStripMenuItem.Checked = true;
-            }
+            // Änderungs-Handler für Einstellungsfelder
+            txtUri.TextChanged      += OnSettingsChanged;
+            txtUsername.TextChanged += OnSettingsChanged;
+            txtPassword.TextChanged += OnSettingsChanged;
+            txtEmail.TextChanged    += OnSettingsChanged;
+
+            // Verknüpfungs-Checkboxen prüfen
+            string linkPath   = ShortcutPath("Desktop");
+            string sendtoPath = ShortcutPath("SendTo");
+
+            if (File.Exists(linkPath))   linkToolStripMenuItem.Checked   = true;
+            if (File.Exists(sendtoPath)) sendtoToolStripMenuItem.Checked = true;
         }
 
-        // Start with the executable file.
+        // ------------------------------------------------------------------ //
+        //  Form-Events
+        // ------------------------------------------------------------------ //
+
         private void Mainform_Load(object sender, EventArgs e)
         {
             lblStatus.Text = Properties.Resources.Done;
-            txtFile.Text = Application.ExecutablePath;
-            // Get the path of the currently running executable
-            string exePath = Assembly.GetExecutingAssembly().Location;
-            string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft\\Windows\\Start Menu\\Programs", "MyApp.lnk");
-
-            // Create a shortcut to the application if it doesn't already exist
-            if (!System.IO.File.Exists(shortcutPath))
-            {
-                CreateShortcut(shortcutPath, exePath);
-            }
-
-            // Pin the shortcut to the taskbar
-            PinToTaskbar(shortcutPath);
+            // Executable vorauswählen als Standarddatei
+            txtFile.Items.Add(Application.ExecutablePath);
+            btnZip.Enabled = true;
         }
 
-        private static void CreateShortcut(string shortcutPath, string targetPath)
+        private void formLoading(object sender, EventArgs e)
         {
-            var shell = new IWshRuntimeLibrary.WshShell();
-            var shortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(shortcutPath);
-            shortcut.TargetPath = targetPath;
-            shortcut.Save();
+            Location = Properties.Settings.Default.Location;
         }
 
-        private static void PinToTaskbar(string shortcutPath)
+        private void formClosing(object sender, FormClosingEventArgs e)
         {
-            // PowerShell script to pin the shortcut to the taskbar
-            string psScript = $@"
-            $shell = New-Object -ComObject Shell.Application
-            $folder = $shell.Namespace('{Path.GetDirectoryName(shortcutPath)}')
-            $item = $folder.ParseName('{Path.GetFileName(shortcutPath)}')
-            $item.InvokeVerb('taskbarpin')
-        ";
-
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "powershell",
-                Arguments = $"-Command \"{psScript}\"",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            });
+            Properties.Settings.Default.Location = Location;
+            Properties.Settings.Default.Save();
+            _credentials?.Dispose();
+            _uploadCts?.Dispose();
         }
-        public void toggleButton_Click(object sender, EventArgs e)
+
+        // ------------------------------------------------------------------ //
+        //  Datei-Liste
+        // ------------------------------------------------------------------ //
+
+        /// <summary>Fügt eine Datei zur Liste hinzu, wenn sie existiert.</summary>
+        public void LoadFile(string file)
         {
-            if (mask == '✲')
-            {
-                txtPassword.PasswordChar = '\0';
-                mask = '\0';
-                toggleButton.Image = Properties.Resources.hide_password;
-
-            }
-            else
-            {
-                txtPassword.PasswordChar = '✲';
-                mask = '✲';
-                toggleButton.Image = Properties.Resources.show_password;
-            }
+            if (File.Exists(file))
+                AddFileToList(file);
         }
 
-        // Let the user pick files.
+        private void AddFileToList(string path)
+        {
+            if (!txtFile.Items.Contains(path))
+                txtFile.Items.Add(path);
+
+            btnZip.Enabled = txtFile.Items.Count > 0;
+        }
+
+        private void UpdateZipButton()
+        {
+            btnZip.Enabled = txtFile.Items.Count > 0;
+        }
+
+        // Datei-Auswahl per Dialog
         private void btnPickFile_Click(object sender, EventArgs e)
         {
-            if (ofdFile.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string file in ofdFile.FileNames)
-                {
-                    try
-                    {
-                        Stream myStream;
-                        if ((myStream = ofdFile.OpenFile()) != null)
-                        {
-                            using (myStream)
-                            {
-                                txtFile.Items.Add(file);
-                            }
-                        }
-                    }
+            if (ofdFile.ShowDialog() != DialogResult.OK)
+                return;
 
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(Properties.Resources.CouldNotReadTheFile + ex.Message);
-                    }
-                }
-            }
-            if (txtFile.Items.Count > 0)
-                btnZip.Enabled = true;
-            else
-            {
-                btnZip.Enabled = false;
-            }
+            // Alle gewählten Dateien hinzufügen – kein unnötiges OpenFile()
+            foreach (string file in ofdFile.FileNames)
+                AddFileToList(file);
         }
 
+        // Rechtsklick entfernt markierte Einträge
         private void txtFile_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                ListBox.SelectedObjectCollection selListItems = txtFile.SelectedItems;
+            if (e.Button != MouseButtons.Right)
+                return;
 
-                foreach (var item in selListItems.OfType<string>().ToList())
-                {
-                    txtFile.Items.Remove(item);
-                }
-                if (txtFile.Items.Count > 0)
-                    btnZip.Enabled = true;
-                else
-                {
-                    btnZip.Enabled = false;
-                }
+            foreach (var item in txtFile.SelectedItems.OfType<string>().ToList())
+                txtFile.Items.Remove(item);
 
-            }
+            UpdateZipButton();
         }
 
-        // Upload the selected file.
-        private async void btnUpload_Click(object sender, EventArgs e)
+        // Drag & Drop
+        private void txtFile_DragEnter(object sender, DragEventArgs e)
         {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                lblStatus.Text = Properties.Resources.Working;
-                Application.DoEvents();
-
-                // Call the asynchronous FTP upload function.
-                await SftpUploadFileAsync(zipUpload, txtUri.Text, txtUsername.Text, txtPassword.Text);
-
-                lblStatus.Text = Properties.Resources.Done;
-            }
-            catch (Exception ex)
-            {
-                lblStatus.Text = Properties.Resources.Error;
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                System.IO.File.Delete(zipUpload);
-                txtFile.Text = null;
-                Cursor = Cursors.Default;
-            }
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop)
+                ? DragDropEffects.Copy
+                : DragDropEffects.None;
         }
 
-        // Prepare the ZIP archive for Avast
+        private void txtFile_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop)
+                ? DragDropEffects.Link
+                : DragDropEffects.None;
+        }
+
+        private void txtFile_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+                AddFileToList(file);
+        }
+
+        // ------------------------------------------------------------------ //
+        //  ZIP erstellen
+        // ------------------------------------------------------------------ //
 
         private void btnZip_Click(object sender, EventArgs e)
         {
-            ListBox.ObjectCollection ListItems = txtFile.Items;
-            DateTime date = DateTime.Now;
-            timeStamp = date.ToString("ffff_dd-MM-yyyy");
-            zipPath = Path.GetTempPath();
-            zipUpload = zipPath + txtEmail.Text + "_" + timeStamp + ".zip";
+            if (txtFile.Items.Count == 0)
+                return;
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                MessageBox.Show(
+                    Properties.Resources.PleaseEnterEmail,
+                    Properties.Resources.MissingInput,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            string timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string zipPath   = Path.GetTempPath();
+            string newZip    = Path.Combine(zipPath, $"{txtEmail.Text}_{timeStamp}.zip");
+
             try
             {
-                Cursor = Cursors.WaitCursor;
+                Cursor         = Cursors.WaitCursor;
                 lblStatus.Text = Properties.Resources.Working;
-                // Create FileStream for output ZIP archive
-                using (FileStream zipFile = System.IO.File.Open(zipUpload, FileMode.Create))
-                // File to be added to archive
-                using (ZipArchive arch = new ZipArchive(zipFile, ZipArchiveMode.Create))
+
+                using (var zipStream = File.Open(newZip, FileMode.Create))
+                using (var archive  = new ZipArchive(zipStream, ZipArchiveMode.Create))
                 {
-                    foreach (var zipSource in ListItems.OfType<string>().ToList())
-                    {
-                        arch.CreateEntryFromFile(zipSource, Path.GetFileName(zipSource));
-                    }
+                    foreach (string source in txtFile.Items.OfType<string>())
+                        archive.CreateEntryFromFile(source, Path.GetFileName(source));
                 }
+
+                // Alte ZIP ggf. aufräumen
+                TryDeleteZip(_zipUpload);
+                _zipUpload = newZip;
+
+                btnUpload.Enabled = true;
+                lblStatus.Text    = $"{txtEmail.Text}_{timeStamp}{Properties.Resources.ZipCreated}";
             }
             catch (Exception ex)
             {
                 lblStatus.Text = Properties.Resources.Error;
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, Properties.Resources.Error,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TryDeleteZip(newZip);
             }
             finally
             {
                 Cursor = Cursors.Default;
-                btnUpload.Enabled = true;
-                lblStatus.Text = txtEmail.Text + "_" + timeStamp + Properties.Resources.ZipCreated;
             }
-
         }
 
-        private async Task SftpUploadFileAsync(string filename, string sftpUrl, string user_name, string password)
+        // ------------------------------------------------------------------ //
+        //  Upload
+        // ------------------------------------------------------------------ //
+
+        private async void btnUpload_Click(object sender, EventArgs e)
         {
+            // Guard: ZIP muss existieren
+            if (string.IsNullOrEmpty(_zipUpload) || !File.Exists(_zipUpload))
+            {
+                MessageBox.Show(
+                    Properties.Resources.PleaseCreateZipFirst,
+                    Properties.Resources.MissingInput,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetUploadRunning(true);
+
+            _uploadCts = new CancellationTokenSource();
+
             try
             {
-                // Parse the URL to get the host, port, and directory
-                Uri uri = new Uri("sftp://" + sftpUrl); // Prepend "sftp://" to make it a valid URI
+                long fileSize = new FileInfo(_zipUpload).Length;
 
-                string host = uri.Host;  // Host (e.g., whitelisting.avast.com)
-                int port = uri.Port;     // Port (e.g., 22)
-                string remoteDirectory = uri.AbsolutePath;  // Remote directory (e.g., /data)
-
-                // Ensure the remote directory is correctly formatted (without starting slash)
-                remoteDirectory = remoteDirectory.TrimStart('/');
-
-                // Create a connection to the SFTP server
-                var connectionInfo = new ConnectionInfo(host, port, user_name, new PasswordAuthenticationMethod(user_name, password));
-
-                using (var sftpClient = new SftpClient(connectionInfo))
+                var progressHandler = new Progress<long>(bytesRead =>
                 {
-                    // Attempt to connect
-                    sftpClient.Connect();
-
-                    if (sftpClient.IsConnected)
+                    if (fileSize > 0)
                     {
-                        // Open the file stream asynchronously
-                        byte[] bytes;
-                        using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
-                        {
-                            bytes = new byte[fs.Length];
-                            await fs.ReadAsync(bytes, 0, (int)fs.Length);
-                        }
-
-                        using (MemoryStream ms = new MemoryStream(bytes))
-                        {
-                            // Define the remote path for file upload
-                            string remotePath = "/" + remoteDirectory + "/" + Path.GetFileName(filename);
-
-                            // Ensure the directory exists before uploading
-                            if (!sftpClient.Exists("/" + remoteDirectory))
-                            {
-                                // Show a message if the directory does not exist
-                                MessageBox.Show(String.Format(avUpload.Properties.Resources.Directory0DoesNotExistOnTheServer, remoteDirectory), avUpload.Properties.Resources.DirectoryError, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            // Upload the file to the SFTP server
-                            await Task.Run(() => sftpClient.UploadFile(ms, remotePath));
-
-                            // Show message after successful upload
-                            MessageBox.Show(avUpload.Properties.Resources.FileUploadedSuccessfully, avUpload.Properties.Resources.UploadSuccess, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-
-                        // Disconnect after upload
-                        sftpClient.Disconnect();
+                        int pct = (int)(bytesRead * 100L / fileSize);
+                        lblStatus.Text = $"{Properties.Resources.Working} {pct}%";
                     }
-                    else
-                    {
-                        // Show message if connection failed
-                        MessageBox.Show(avUpload.Properties.Resources.FailedToConnectToTheSFTPServer, avUpload.Properties.Resources.ConnectionFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                });
+
+                await SftpService.UploadAsync(
+                    _zipUpload,
+                    txtUri.Text,
+                    txtUsername.Text,
+                    txtPassword.Text,
+                    progressHandler,
+                    _uploadCts.Token);
+
+                // Erfolg: ZIP löschen, Liste leeren
+                TryDeleteZip(_zipUpload);
+                _zipUpload = null;
+                txtFile.Items.Clear();
+                btnUpload.Enabled = false;
+
+                lblStatus.Text = Properties.Resources.Done;
+                MessageBox.Show(
+                    Properties.Resources.FileUploadedSuccessfully,
+                    Properties.Resources.UploadSuccess,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (OperationCanceledException)
+            {
+                lblStatus.Text = Properties.Resources.UploadCancelled;
+                // ZIP bleibt erhalten – Nutzer kann erneut hochladen
             }
             catch (Exception ex)
             {
-                // Catch any errors during the connection or upload process and show them
-                MessageBox.Show(String.Format(avUpload.Properties.Resources.Error0, ex.Message), avUpload.Properties.Resources.UploadError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = Properties.Resources.Error;
+                MessageBox.Show(ex.Message, Properties.Resources.UploadError,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ZIP bleibt erhalten – Nutzer kann erneut versuchen
+            }
+            finally
+            {
+                _uploadCts?.Dispose();
+                _uploadCts = null;
+                SetUploadRunning(false);
             }
         }
-        void ChangeHandler(object sender, EventArgs e)
+
+        /// <summary>Aktiviert/deaktiviert Controls während des Uploads.</summary>
+        private void SetUploadRunning(bool running)
+        {
+            btnUpload.Enabled  = !running;
+            btnZip.Enabled     = !running;
+            btnPickFile.Enabled = !running;
+            btnSave.Enabled    = !running;
+            TopMost            = !running; // während Upload nicht blockieren
+            Cursor             = running ? Cursors.WaitCursor : Cursors.Default;
+
+            if (running)
+                lblStatus.Text = Properties.Resources.Working;
+        }
+
+        // ------------------------------------------------------------------ //
+        //  Einstellungen speichern
+        // ------------------------------------------------------------------ //
+
+        private void OnSettingsChanged(object sender, EventArgs e)
         {
             btnSave.Enabled = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (regKey == null)
+            try
             {
-                regKey = Registry.CurrentUser.CreateSubKey("SOFTWARE\\NASS e.K.\\Avast-Whitelisting");
+                if (_credentials == null) _credentials = new CredentialStore();
+                _credentials.Save(txtUri.Text, txtUsername.Text, txtPassword.Text, txtEmail.Text);
+                btnSave.Enabled = false;
+                lblStatus.Text  = Properties.Resources.Done;
             }
-            regKey.SetValue("Uri", Encrypt(txtUri.Text));
-            regKey.SetValue("Username", Encrypt(txtUsername.Text));
-            regKey.SetValue("Password", Encrypt(txtPassword.Text));
-            regKey.SetValue("Email", Encrypt(txtEmail.Text));
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Properties.Resources.Error,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnAbout_Click(object sender, EventArgs e)
+        // ------------------------------------------------------------------ //
+        //  Passwort anzeigen / verbergen
+        // ------------------------------------------------------------------ //
+
+        public void toggleButton_Click(object sender, EventArgs e)
         {
-            AboutBox1 aboutBox = new AboutBox1();
-
-            aboutBox.ShowDialog();
+            bool show           = txtPassword.PasswordChar != '\0';
+            txtPassword.PasswordChar = show ? '\0' : '✲';
+            toggleButton.Image  = show
+                ? Properties.Resources.hide_password
+                : Properties.Resources.show_password;
         }
+
+        // ------------------------------------------------------------------ //
+        //  Tray-Icon
+        // ------------------------------------------------------------------ //
+
         private void notifyIcon1_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (Visible == false)
-                {
-                    BringToFront();
-                }
-                if (WindowState == FormWindowState.Minimized || Visible == false)
+                if (WindowState == FormWindowState.Minimized || !Visible)
                 {
                     BringToFront();
                     WindowState = FormWindowState.Normal;
@@ -449,78 +389,24 @@ namespace avUpload
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (WindowState == FormWindowState.Minimized)
-                {
-                    openToolStripMenuItem.Enabled = true;
-                    minimizeToolStripMenuItem.Enabled = false;
-                }
-                else
-                {
-                    openToolStripMenuItem.Enabled = false;
-                    minimizeToolStripMenuItem.Enabled = true;
-                }
+                openToolStripMenuItem.Enabled    = WindowState == FormWindowState.Minimized;
+                minimizeToolStripMenuItem.Enabled = WindowState != FormWindowState.Minimized;
             }
         }
 
         private void open_Click(object sender, EventArgs e)
         {
-            if (Visible == false)
-            {
-                BringToFront();
-            }
-            WindowState = FormWindowState.Normal;
+            BringToFront();
+            WindowState         = FormWindowState.Normal;
             notifyIcon1.Visible = true;
         }
+
         private void minimize_Click(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
+            WindowState         = FormWindowState.Minimized;
             notifyIcon1.Visible = true;
         }
 
-        private void link_Click(object sender, EventArgs e)
-        {
-            if (this.linkToolStripMenuItem.Checked == true)
-            {
-                var WshShell = new WshShell();
-                IWshShortcut MyShortcut;
-
-                MyShortcut = (IWshShortcut)WshShell.CreateShortcut(linkPath);
-                MyShortcut.TargetPath = Application.ExecutablePath;
-                MyShortcut.WorkingDirectory = Environment.CurrentDirectory;
-                MyShortcut.Description = Application.ProductName;
-                MyShortcut.Save();
-            }
-            else
-            {
-                if (System.IO.File.Exists(linkPath))
-                {
-                    System.IO.File.Delete(linkPath);
-                    this.linkToolStripMenuItem.Checked = false;
-                }
-            }
-        }
-        private void sendto_Click(object sender, EventArgs e)
-        {
-            if (this.sendtoToolStripMenuItem.Checked == true)
-            {
-                var WshShell = new WshShell();
-                IWshShortcut MyShortcut;
-
-                MyShortcut = (IWshShortcut)WshShell.CreateShortcut(sendtoPath);
-                MyShortcut.TargetPath = Application.ExecutablePath;
-                MyShortcut.WorkingDirectory = Environment.CurrentDirectory;
-                MyShortcut.Description = Application.ProductName;
-                MyShortcut.Save();
-            }
-            else
-            {
-                if (System.IO.File.Exists(sendtoPath))
-                {
-                    System.IO.File.Delete(sendtoPath);
-                    this.sendtoToolStripMenuItem.Checked = false;
-                }
-            }
-        }
         private void close_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Location = Location;
@@ -528,43 +414,67 @@ namespace avUpload
             Application.Exit();
         }
 
-        private void formClosing(object sender, FormClosingEventArgs e)
+        private void btnAbout_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Location = Location;
-            Properties.Settings.Default.Save();
+            using (var about = new AboutBox1())
+                about.ShowDialog();
         }
 
-        private void formLoading(object sender, EventArgs e)
-        {
-            Location = Properties.Settings.Default.Location;
-        }
-        private void txtFile_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Link;
-            else
-                e.Effect = DragDropEffects.None;
-        }
-        private void txtFile_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (string file in files)
-            {
-                txtFile.Items.Add(file);
-            }
-            btnZip.Enabled = true;
-        }
-        private void txtFile_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-        }
-        public void LoadFile(string file)
-        {
-            if (System.IO.File.Exists(file))
-            {
-                txtFile.Items.Add(file);
-            }
+        // ------------------------------------------------------------------ //
+        //  Desktop- und SendTo-Verknüpfungen
+        // ------------------------------------------------------------------ //
 
+        private void link_Click(object sender, EventArgs e)
+        {
+            string path = ShortcutPath("Desktop");
+            ManageShortcut(linkToolStripMenuItem.Checked, path);
         }
+
+        private void sendto_Click(object sender, EventArgs e)
+        {
+            string path = ShortcutPath("SendTo");
+            ManageShortcut(sendtoToolStripMenuItem.Checked, path);
+        }
+
+        private void ManageShortcut(bool create, string path)
+        {
+            if (create)
+            {
+                ShellLink.CreateShortcut(
+                    path,
+                    Application.ExecutablePath,
+                    Environment.CurrentDirectory,
+                    Application.ProductName);
+            }
+            else if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        // ------------------------------------------------------------------ //
+        //  Hilfsmethoden
+        // ------------------------------------------------------------------ //
+
+        private static string ShortcutPath(string folder)
+        {
+            string progName = Assembly.GetExecutingAssembly()
+                                      .GetName().Name;
+
+            return folder == "Desktop"
+                ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                               $"{progName}.lnk")
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                               @"Microsoft\Windows\SendTo",
+                               $"{progName}.lnk");
+        }
+
+        private static void TryDeleteZip(string path)
+        {
+            if (string.IsNullOrEmpty(path)) return;
+            try { File.Delete(path); } catch { /* ignorieren */ }
+        }
+
+        // Cleanup erfolgt in formClosing – Dispose wird vom Designer generiert
     }
 }

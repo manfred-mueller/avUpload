@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AvUpload"
-#define MyAppVersion "1.3.1"
+#define MyAppVersion "1.4.0"
 #define MyAppExeName "avUpload.exe"
 #define MyAppSetupName "avUpload_setup"
 #define MyAppPublisher "NASS e.K."
@@ -56,7 +56,7 @@ Name: "{usersendto}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: des
 Source: "bin\Release\avUpload.exe"; DestDir: "{app}"; Flags: confirmoverwrite
 Source: "bin\Release\avUpload.exe.config"; DestDir: "{app}"
 Source: "bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
-Source: "bin\Release\BouncyCastle.Cryptography.dll"; DestDir: "{app}"
+Source: "bin\Release\MaterialSkin.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"
 Source: "bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"

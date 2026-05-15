@@ -272,4 +272,15 @@ Wenn Sie dem Whitelisting-Programm beitreten und eine Anwendungsdatei einreichen
   <data name="UploadError" xml:space="preserve">
     <value>Upload-Fehler</value>
   </data>
-</root>
+  <data name="PleaseCreateZipFirst" xml:space="preserve">
+    <value>Bitte zuerst ein ZIP-Archiv erstellen, bevor der Upload gestartet wird.</value>
+  </data>
+  <data name="UploadCancelled" xml:space="preserve">
+    <value>Upload abgebrochen.</value>
+  </data>
+  <data name="MissingInput" xml:space="preserve">
+    <value>Eingabe fehlt</value>
+  </data>
+  <data name="PleaseEnterEmail" xml:space="preserve">
+    <value>Bitte vor dem Erstellen des Archivs eine E-Mail-Adresse eingeben.</value>
+  </data></root>

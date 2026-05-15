@@ -309,4 +309,16 @@ When you join the Whitelisting Program and submit an application file, the Avast
   <data name="UploadError" xml:space="preserve">
     <value>Upload Error</value>
   </data>
+  <data name="PleaseCreateZipFirst" xml:space="preserve">
+    <value>Please create a ZIP archive first before uploading.</value>
+  </data>
+  <data name="UploadCancelled" xml:space="preserve">
+    <value>Upload cancelled.</value>
+  </data>
+  <data name="MissingInput" xml:space="preserve">
+    <value>Missing Input</value>
+  </data>
+  <data name="PleaseEnterEmail" xml:space="preserve">
+    <value>Please enter your email address before creating the archive.</value>
+  </data>
 </root>

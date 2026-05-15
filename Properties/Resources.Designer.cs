@@ -350,6 +350,15 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Missing Input ähnelt.
+        /// </summary>
+        public static string MissingInput {
+            get {
+                return ResourceManager.GetString("MissingInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No credentials found ähnelt.
         /// </summary>
         public static string NoCredentialsFound {
@@ -382,6 +391,24 @@ namespace avUpload.Properties {
         public static string PickFile {
             get {
                 return ResourceManager.GetString("PickFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please create a ZIP archive first before uploading. ähnelt.
+        /// </summary>
+        public static string PleaseCreateZipFirst {
+            get {
+                return ResourceManager.GetString("PleaseCreateZipFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please enter your email address before creating the archive. ähnelt.
+        /// </summary>
+        public static string PleaseEnterEmail {
+            get {
+                return ResourceManager.GetString("PleaseEnterEmail", resourceCulture);
             }
         }
         
@@ -530,6 +557,15 @@ namespace avUpload.Properties {
             get {
                 object obj = ResourceManager.GetObject("upload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Upload cancelled. ähnelt.
+        /// </summary>
+        public static string UploadCancelled {
+            get {
+                return ResourceManager.GetString("UploadCancelled", resourceCulture);
             }
         }
         
