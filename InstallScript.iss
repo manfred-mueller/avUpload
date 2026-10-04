@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AvUpload"
-#define MyAppVersion "1.4.0"
+#define MyAppVersion "1.5.0"
 #define MyAppExeName "avUpload.exe"
 #define MyAppSetupName "avUpload_setup"
 #define MyAppPublisher "NASS e.K."
@@ -19,13 +19,13 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
+DefaultDirName={commonappdata}\{#MyAppName}
 DisableDirPage=yes
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=D:\Dokumente\gpl_de.txt
-; Uncomment the following line to run in non administrative install mode (install for current user only.)
-;PrivilegesRequired=lowest
+; Installiert ohne UAC-Prompt in ProgramData - analog zu DHLabel.
+PrivilegesRequired=lowest
 OutputDir=bin\Release
 OutputBaseFilename={#MyAppSetupName}-{#MyAppVersion}
 SetupIconFile=D:\Bilder\nass-ek.ico
@@ -38,7 +38,6 @@ WizardSmallImageFile=D:\Bilder\wz_leer_small.bmp
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-ChangesAssociations = yes
 SignTool=Certum
 
 [Languages]
@@ -53,24 +52,71 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 Name: "{usersendto}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon;
 
 [Files]
+; Costura.Fody bettet alle verwalteten Abhaengigkeiten in avUpload.exe ein -
+; es wird daher nur noch die EXE selbst und ihre Konfigurationsdatei benoetigt.
 Source: "bin\Release\avUpload.exe"; DestDir: "{app}"; Flags: confirmoverwrite
 Source: "bin\Release\avUpload.exe.config"; DestDir: "{app}"
-Source: "bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
-Source: "bin\Release\MaterialSkin.dll"; DestDir: "{app}"
-Source: "bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"
-Source: "bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"
-Source: "bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"
-Source: "bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"
-Source: "bin\Release\Renci.SshNet.dll"; DestDir: "{app}"
-Source: "bin\Release\System.Buffers.dll"; DestDir: "{app}"
-Source: "bin\Release\System.Formats.Asn1.dll"; DestDir: "{app}"
-Source: "bin\Release\System.Memory.dll"; DestDir: "{app}"
-Source: "bin\Release\System.Numerics.Vectors.dll"; DestDir: "{app}"
-Source: "bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"
-Source: "bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"
-Source: "bin\Release\System.ValueTuple.dll"; DestDir: "{app}"
 
 [Code]
+
+const
+  WM_SETTINGCHANGE = $001A;
+  SMTO_ABORTIFHUNG = $0002;
+  EnvironmentKey   = 'Environment';
+
+function SendMessageTimeout(hWnd: Longint; Msg: Longint; wParam: Longint; lParam: string;
+  fuFlags: Longint; uTimeout: Longint; var lpdwResult: Longint): Longint;
+  external 'SendMessageTimeoutA@user32.dll stdcall';
+
+{ Haengt Path an die benutzerbezogene PATH-Variable (HKCU) an - keine
+  Admin-Rechte noetig, passt zu PrivilegesRequired=lowest. Vermeidet
+  Duplikate und benachrichtigt laufende Prozesse per WM_SETTINGCHANGE
+  (bereits offene Shells muessen trotzdem neu gestartet werden). }
+procedure EnvAddPath(Path: string);
+var
+  Paths: string;
+  BroadcastResult: Longint;
+begin
+  if not RegQueryStringValue(HKEY_CURRENT_USER, EnvironmentKey, 'Path', Paths) then
+    Paths := '';
+
+  if (Paths <> '') and (Pos(';' + Uppercase(Path) + ';', ';' + Uppercase(Paths) + ';') > 0) then
+    exit;
+
+  if (Paths <> '') and (Paths[Length(Paths)] <> ';') then
+    Paths := Paths + ';';
+  Paths := Paths + Path;
+
+  if RegWriteStringValue(HKEY_CURRENT_USER, EnvironmentKey, 'Path', Paths) then
+    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, EnvironmentKey, SMTO_ABORTIFHUNG, 5000, BroadcastResult)
+  else
+    Log('EnvAddPath: Schreiben von HKCU\Environment\Path fehlgeschlagen.');
+end;
+
+{ Entfernt genau den Path-Eintrag wieder, den EnvAddPath hinzugefuegt hat. }
+procedure EnvRemovePath(Path: string);
+var
+  Paths: string;
+  P: Integer;
+  BroadcastResult: Longint;
+begin
+  if not RegQueryStringValue(HKEY_CURRENT_USER, EnvironmentKey, 'Path', Paths) then
+    exit;
+
+  P := Pos(';' + Uppercase(Path) + ';', ';' + Uppercase(Paths) + ';');
+  if P = 0 then
+    exit;
+
+  { P ist 1-basiert auf dem mit ';' gerahmten String - auf Paths umrechnen. }
+  Delete(Paths, P, Length(Path) + 1);
+  if (Paths <> '') and (Paths[1] = ';') then
+    Delete(Paths, 1, 1);
+
+  if RegWriteStringValue(HKEY_CURRENT_USER, EnvironmentKey, 'Path', Paths) then
+    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, EnvironmentKey, SMTO_ABORTIFHUNG, 5000, BroadcastResult)
+  else
+    Log('EnvRemovePath: Schreiben von HKCU\Environment\Path fehlgeschlagen.');
+end;
 
 function GetUninstallString(): String;
 var
@@ -127,5 +173,19 @@ begin
     begin
       UnInstallOldVersion();
     end;
+  end;
+
+  if (CurStep=ssPostInstall) then
+  begin
+    EnvAddPath(ExpandConstant('{app}'));
+  end;
+end;
+
+{ ///////////////////////////////////////////////////////////////////// }
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if (CurUninstallStep=usPostUninstall) then
+  begin
+    EnvRemovePath(ExpandConstant('{app}'));
   end;
 end;

@@ -321,4 +321,41 @@ When you join the Whitelisting Program and submit an application file, the Avast
   <data name="PleaseEnterEmail" xml:space="preserve">
     <value>Please enter your email address before creating the archive.</value>
   </data>
+  <!-- Silent Mode -->
+  <data name="SilentUsage" xml:space="preserve">
+    <value>Usage: avUpload.exe --silent [--email address] file1 [file2 ...]</value>
+  </data>
+  <data name="SilentErrorNoFiles" xml:space="preserve">
+    <value>Error: No files specified.</value>
+  </data>
+  <data name="SilentErrorNoEmail" xml:space="preserve">
+    <value>Error: No email address specified. Use --email or save credentials first.</value>
+  </data>
+  <data name="SilentErrorRegistry" xml:space="preserve">
+    <value>Error: Registry not accessible – {0}</value>
+  </data>
+  <data name="SilentErrorZip" xml:space="preserve">
+    <value>Error creating ZIP archive: {0}</value>
+  </data>
+  <data name="SilentErrorSftp" xml:space="preserve">
+    <value>SFTP error: {0}</value>
+  </data>
+  <data name="SilentErrorUnexpected" xml:space="preserve">
+    <value>Unexpected error: {0}</value>
+  </data>
+  <data name="SilentErrorFileNotFound" xml:space="preserve">
+    <value>Error: File not found – {0}</value>
+  </data>
+  <data name="SilentZipCreated" xml:space="preserve">
+    <value>ZIP created: {0}</value>
+  </data>
+  <data name="SilentUploading" xml:space="preserve">
+    <value>Uploading... {0} KB</value>
+  </data>
+  <data name="SilentUploadSuccess" xml:space="preserve">
+    <value>Successfully uploaded.</value>
+  </data>
+  <data name="SilentUploadCancelled" xml:space="preserve">
+    <value>Upload cancelled.</value>
+  </data>
 </root>

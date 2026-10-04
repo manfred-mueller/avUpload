@@ -514,6 +514,114 @@ namespace avUpload.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: File not found – {0} ähnelt.
+        /// </summary>
+        public static string SilentErrorFileNotFound {
+            get {
+                return ResourceManager.GetString("SilentErrorFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: No email address specified. Use --email or save credentials first. ähnelt.
+        /// </summary>
+        public static string SilentErrorNoEmail {
+            get {
+                return ResourceManager.GetString("SilentErrorNoEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: No files specified. ähnelt.
+        /// </summary>
+        public static string SilentErrorNoFiles {
+            get {
+                return ResourceManager.GetString("SilentErrorNoFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: Registry not accessible – {0} ähnelt.
+        /// </summary>
+        public static string SilentErrorRegistry {
+            get {
+                return ResourceManager.GetString("SilentErrorRegistry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die SFTP error: {0} ähnelt.
+        /// </summary>
+        public static string SilentErrorSftp {
+            get {
+                return ResourceManager.GetString("SilentErrorSftp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unexpected error: {0} ähnelt.
+        /// </summary>
+        public static string SilentErrorUnexpected {
+            get {
+                return ResourceManager.GetString("SilentErrorUnexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error creating ZIP archive: {0} ähnelt.
+        /// </summary>
+        public static string SilentErrorZip {
+            get {
+                return ResourceManager.GetString("SilentErrorZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Upload cancelled. ähnelt.
+        /// </summary>
+        public static string SilentUploadCancelled {
+            get {
+                return ResourceManager.GetString("SilentUploadCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Uploading... {0} KB ähnelt.
+        /// </summary>
+        public static string SilentUploading {
+            get {
+                return ResourceManager.GetString("SilentUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Successfully uploaded. ähnelt.
+        /// </summary>
+        public static string SilentUploadSuccess {
+            get {
+                return ResourceManager.GetString("SilentUploadSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Usage: avUpload.exe --silent [--email address] file1 [file2 ...] ähnelt.
+        /// </summary>
+        public static string SilentUsage {
+            get {
+                return ResourceManager.GetString("SilentUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ZIP created: {0} ähnelt.
+        /// </summary>
+        public static string SilentZipCreated {
+            get {
+                return ResourceManager.GetString("SilentZipCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Create archive ähnelt.
         /// </summary>
         public static string ToolTipCompress {

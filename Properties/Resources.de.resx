@@ -283,4 +283,42 @@ Wenn Sie dem Whitelisting-Programm beitreten und eine Anwendungsdatei einreichen
   </data>
   <data name="PleaseEnterEmail" xml:space="preserve">
     <value>Bitte vor dem Erstellen des Archivs eine E-Mail-Adresse eingeben.</value>
-  </data></root>
+  </data>
+  <!-- Silent Mode -->
+  <data name="SilentUsage" xml:space="preserve">
+    <value>Verwendung: avUpload.exe --silent [--email Adresse] Datei1 [Datei2 ...]</value>
+  </data>
+  <data name="SilentErrorNoFiles" xml:space="preserve">
+    <value>Fehler: Keine Dateien angegeben.</value>
+  </data>
+  <data name="SilentErrorNoEmail" xml:space="preserve">
+    <value>Fehler: Keine E-Mail-Adresse angegeben. Bitte --email verwenden oder Zugangsdaten zuerst speichern.</value>
+  </data>
+  <data name="SilentErrorRegistry" xml:space="preserve">
+    <value>Fehler: Registry nicht zugänglich – {0}</value>
+  </data>
+  <data name="SilentErrorZip" xml:space="preserve">
+    <value>Fehler beim Erstellen des ZIP-Archivs: {0}</value>
+  </data>
+  <data name="SilentErrorSftp" xml:space="preserve">
+    <value>SFTP-Fehler: {0}</value>
+  </data>
+  <data name="SilentErrorUnexpected" xml:space="preserve">
+    <value>Unerwarteter Fehler: {0}</value>
+  </data>
+  <data name="SilentErrorFileNotFound" xml:space="preserve">
+    <value>Fehler: Datei nicht gefunden – {0}</value>
+  </data>
+  <data name="SilentZipCreated" xml:space="preserve">
+    <value>ZIP erstellt: {0}</value>
+  </data>
+  <data name="SilentUploading" xml:space="preserve">
+    <value>Hochladen... {0} KB</value>
+  </data>
+  <data name="SilentUploadSuccess" xml:space="preserve">
+    <value>Erfolgreich hochgeladen.</value>
+  </data>
+  <data name="SilentUploadCancelled" xml:space="preserve">
+    <value>Upload abgebrochen.</value>
+  </data>
+</root>

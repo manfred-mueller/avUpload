@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace avUpload
@@ -8,15 +9,24 @@ namespace avUpload
     {
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
+        /// Exit-Codes: 0 = OK, 1 = Fehler, 2 = Abgebrochen (nur Silent-Mode).
         /// </summary>
         [STAThread]
-        static void Main()
+        static int Main()
         {
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (args.Skip(1).Any(a => a == "--silent" || a == "-s"))
+            {
+                // Kein WinForms-Pump notwendig – direkt async ausführen
+                return SilentRunner.RunAsync(args).GetAwaiter().GetResult();
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            string[] args = Environment.GetCommandLineArgs();
             SingleInstanceController controller = new SingleInstanceController();
             controller.Run(args);
+            return 0;
         }
     }
 
